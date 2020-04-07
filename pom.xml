@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>graduation</groupId>
-    <artifactId>java</artifactId>
+    <artifactId>graduationProject</artifactId>
     <packaging>war</packaging>
 
     <version>1.0-SNAPSHOT</version>
@@ -167,6 +167,11 @@
             <artifactId>assertj-core</artifactId>
             <version>3.15.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.2.0.RELEASE</version>
         </dependency>
     </dependencies>
 
