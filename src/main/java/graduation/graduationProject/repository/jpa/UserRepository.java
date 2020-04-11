@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class JpaUserRepository {
+public class UserRepository {
 
     @PersistenceContext
     private EntityManager em;

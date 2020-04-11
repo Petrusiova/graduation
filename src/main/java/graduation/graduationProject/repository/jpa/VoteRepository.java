@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class JpaVoteRepository {
+public class VoteRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -24,6 +24,7 @@ public class JpaVoteRepository {
         }
     }
 
+    @Transactional(readOnly = true)
     public Vote get(int id){
         return em.find(Vote.class, id);
     }

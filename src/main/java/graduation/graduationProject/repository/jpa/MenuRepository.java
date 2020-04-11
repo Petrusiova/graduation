@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class JpaMenuRepository {
+public class MenuRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -22,6 +22,7 @@ public class JpaMenuRepository {
         return em.find(Menu.class, id);
     }
 
+    @Transactional
     public Menu save(Menu menu) {
         if (menu.isNew()) {
             em.persist(menu);
@@ -31,23 +32,30 @@ public class JpaMenuRepository {
         }
     }
 
+    @Transactional
     public boolean delete(int id) {
         return em.createNamedQuery(Menu.DELETE)
                 .setParameter("id", id)
                 .executeUpdate() != 0;
     }
 
-    public Menu getByRestaurant(int id_rest) {
-        return (Menu) em.createNamedQuery(Menu.GET_BY_RESTAURANT)
+    public List<Menu> getByRestaurant(int id_rest) {
+        return em.createNamedQuery(Menu.GET_BY_RESTAURANT)
                 .setParameter("id_rest", id_rest)
-                .getSingleResult();
+                .getResultList();
     }
 
-    public Menu getByRestaurantAndDate(int id_rest, LocalDate date) {
-        return (Menu) em.createNamedQuery(Menu.GET_BY_RESTAURANT_AND_DATE)
+    public List<Menu> getByRestaurantAndDate(int id_rest, LocalDate date) {
+        return em.createNamedQuery(Menu.GET_BY_RESTAURANT_AND_DATE)
                 .setParameter("id_rest", id_rest)
                 .setParameter("date", date)
-                .getSingleResult();
+                .getResultList();
+    }
+
+    public List<Menu> getByDate(LocalDate date) {
+        return em.createNamedQuery(Menu.GET_BY_DATE)
+                .setParameter("date", date)
+                .getResultList();
     }
 
     public List<Menu> getAll() {

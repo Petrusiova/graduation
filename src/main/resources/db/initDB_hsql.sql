@@ -56,7 +56,7 @@ CREATE UNIQUE INDEX menu_unique_restaurant_meal_date_idx
   user_id     INTEGER      NOT NULL,
   id_rest     INTEGER      NOT NULL,
   date        TIMESTAMP    NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES USERS (id),
+  FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE,
   FOREIGN KEY (id_rest) REFERENCES restaurants (id)
 --   CONSTRAINT votes_idx UNIQUE (user_id, date)
 );

@@ -1,4 +1,4 @@
-package graduation.graduationProject.web;
+package testData;
 
 import java.util.Arrays;
 

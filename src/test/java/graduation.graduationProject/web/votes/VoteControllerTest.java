@@ -39,7 +39,7 @@ public class VoteControllerTest {
     public void create() {
         Vote vote = controller.create(100004);
         int id = vote.getId();
-        VOTE_MATCHER.assertMatch(vote, controller.get(id));
+        VOTE_MATCHER.assertMatch(controller.get(id), vote);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class VoteControllerTest {
 
     @Test
     public void get(){
-        VOTE_MATCHER.assertMatch(VOTE_1, controller.get(VOTE_1.getId()));
+        VOTE_MATCHER.assertMatch(controller.get(VOTE_1.getId()), VOTE_1);
     }
 
     @Test

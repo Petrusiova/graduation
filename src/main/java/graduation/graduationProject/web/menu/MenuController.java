@@ -1,16 +1,18 @@
 package graduation.graduationProject.web.menu;
 
 import graduation.graduationProject.model.Menu;
-import graduation.graduationProject.repository.MenuRepository;
+import graduation.graduationProject.repository.jpa.MenuRepository;
+import graduation.graduationProject.util.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static graduation.graduationProject.util.ValidationUtil.assureIdConsistent;
-import static graduation.graduationProject.util.ValidationUtil.checkNew;
+import static graduation.graduationProject.util.ValidationUtil.*;
 
 @Controller
 public class MenuController {
@@ -27,7 +29,39 @@ public class MenuController {
 
     public Menu get(int id) {
         log.info("get {}", id);
-        return repository.get(id);
+        Menu menu = repository.get(id);
+        if (menu != null ) {
+            return checkNotFoundWithId(repository.get(id), id);
+        }
+        else throw new NotFoundException("No menu with id " + id + " was found");
+    }
+
+    public List<Menu> getByRestaurant(int id_rest) {
+        log.info("getByRestaurant {}", id_rest);
+        List<Menu> menu = repository.getByRestaurant(id_rest);
+        if (menu != null ) {
+            return menu;
+        }
+        else throw new NotFoundException("No menu with restaurant's id " + id_rest + " was found");
+    }
+
+    public List<Menu> getByDate(LocalDate date) {
+        Assert.notNull(date, "Date cannot be null");
+        log.info("getByDate {}", date);
+        List<Menu> menu = repository.getByDate(date);
+        if (menu != null ) {
+            return menu;
+        }
+        else throw new NotFoundException("No menu with date " + date + " was found");
+    }
+
+    public List<Menu> getByRestaurantAndDate(int id_rest, LocalDate date) {
+        log.info("getByRestaurantAndDate {} {}", id_rest, date);
+        List<Menu> menu = repository.getByRestaurantAndDate(id_rest, date);
+        if (menu != null ) {
+            return menu;
+        }
+        else throw new NotFoundException("No menu with restaurant's id " + id_rest + " and date" + date + " was found");
     }
 
     public Menu create(Menu menu) {
@@ -38,12 +72,13 @@ public class MenuController {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        repository.delete(id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
-    public void update(Menu user, int id) {
-        log.info("update {} with id={}", user, id);
-        assureIdConsistent(user, id);
-        repository.save(user); // TODO: 06.04.2020 add update method!
+    public void update(Menu menu, int id) {
+        Assert.notNull(menu, "Menu cannot be null");
+        log.info("update {} with id={}", menu, id);
+        assureIdConsistent(menu, id);
+        repository.save(menu);
     }
 }
