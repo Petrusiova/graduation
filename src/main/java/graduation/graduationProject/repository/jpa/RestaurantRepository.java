@@ -47,4 +47,7 @@ public class RestaurantRepository {
         return em.createNamedQuery(Restaurant.GET_ALL)
                 .getResultList();
     }
+
+    // TODO: 29.07.2020 add restaurant edit 
+     
 }
