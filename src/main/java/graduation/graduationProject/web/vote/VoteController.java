@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.vote;
 
 import graduation.graduationProject.model.Vote;
-import graduation.graduationProject.repository.jpa.VoteRepository;
+import graduation.graduationProject.repository.datajpa.VoteRepository;
 import graduation.graduationProject.util.exception.IllegalTimeException;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.SecurityUtil;

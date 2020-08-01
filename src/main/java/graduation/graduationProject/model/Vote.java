@@ -1,29 +1,28 @@
 package graduation.graduationProject.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@NamedQueries({
-//        @NamedQuery(name = Menu.GET_BY_RESTAURANT, query = "SELECT m FROM Menu m WHERE m.restaurant.id=:id_rest ORDER BY m.date DESC"),
-//        @NamedQuery(name = Menu.GET_BY_RESTAURANT_AND_DATE, query = "SELECT m FROM Menu m WHERE m.restaurant.id=:id_rest and m.date=:date ORDER BY m.date DESC"),
-        @NamedQuery(name = Vote.GET_ALL, query = "SELECT v FROM Vote v where v.user_id=:user_id order by v.date desc")
-})
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_idx")})
 public class Vote extends AbstractBaseEntity{
 
-    public static final String GET_ALL = "Vote.getAll";
-//    public static final String GET_BY_RESTAURANT = "Vote.getByRestaurant";
-//    public static final String GET_BY_RESTAURANT_AND_DATE = "Vote.getByRestaurantAndDate";
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "int")
-    @NotNull
-    private int user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    //    @NotNull(groups = View.Persist.class)
+    private User user;
 
-    @Column(name = "id_rest", nullable = false, columnDefinition = "int")
-    @NotNull
-    private int id_rest;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rest", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+//    @NotNull(groups = View.Persist.class)
+    private Restaurant restaurant;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
@@ -33,33 +32,33 @@ public class Vote extends AbstractBaseEntity{
     public Vote() {
     }
 
-    public Vote(@NotNull int user_id, @NotNull int id_rest, @NotNull LocalDate date) {
-        this.user_id = user_id;
-        this.id_rest = id_rest;
+    public Vote(@NotNull User user, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
+        this.user = user;
+        this.restaurant = restaurant;
         this.date = date;
     }
 
-    public Vote(int id, @NotNull int user_id, @NotNull int id_rest, @NotNull LocalDate date) {
+    public Vote(int id, @NotNull User user, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
         super(id);
-        this.user_id = user_id;
-        this.id_rest = id_rest;
+        this.user = user;
+        this.restaurant = restaurant;
         this.date = date;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getId_rest() {
-        return id_rest;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setId_rest(int id_rest) {
-        this.id_rest = id_rest;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {
@@ -74,8 +73,6 @@ public class Vote extends AbstractBaseEntity{
     public String toString() {
         return "Vote{" +
                 " id: " + id +
-                " user_id: " + user_id +
-                " id_rest: " + id_rest +
                 " date: " + date +
                 " }";
     }

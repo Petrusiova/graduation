@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.user;
 
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.jpa.UserRepository;
+import graduation.graduationProject.repository.datajpa.UserRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

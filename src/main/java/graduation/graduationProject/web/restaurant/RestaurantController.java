@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.repository.jpa.RestaurantRepository;
+import graduation.graduationProject.repository.datajpa.RestaurantRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
