@@ -18,11 +18,9 @@ public class Vote extends AbstractBaseEntity{
     //    @NotNull(groups = View.Persist.class)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rest", nullable = false)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-//    @NotNull(groups = View.Persist.class)
-    private Restaurant restaurant;
+    @Column(name = "id_rest", nullable = false)
+    @NotNull
+    private int id_rest;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
@@ -32,16 +30,16 @@ public class Vote extends AbstractBaseEntity{
     public Vote() {
     }
 
-    public Vote(@NotNull User user, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
+    public Vote(@NotNull User user, @NotNull int id_rest, @NotNull LocalDate date) {
         this.user = user;
-        this.restaurant = restaurant;
+        this.id_rest = id_rest;
         this.date = date;
     }
 
-    public Vote(int id, @NotNull User user, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
+    public Vote(int id, @NotNull User user, @NotNull int id_rest, @NotNull LocalDate date) {
         super(id);
         this.user = user;
-        this.restaurant = restaurant;
+        this.id_rest = id_rest;
         this.date = date;
     }
 
@@ -53,12 +51,12 @@ public class Vote extends AbstractBaseEntity{
         this.user = user;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public int getId_rest() {
+        return id_rest;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setId_rest(int id_rest) {
+        this.id_rest = id_rest;
     }
 
     public LocalDate getDate() {

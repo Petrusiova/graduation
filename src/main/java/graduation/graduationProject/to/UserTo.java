@@ -1,6 +1,5 @@
 package graduation.graduationProject.to;
 
-import graduation.graduationProject.HasIdAndEmail;
 import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.validation.constraints.Email;

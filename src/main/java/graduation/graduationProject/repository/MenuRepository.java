@@ -1,4 +1,4 @@
-package graduation.graduationProject.repository.datajpa;
+package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Menu;
 import org.springframework.stereotype.Repository;

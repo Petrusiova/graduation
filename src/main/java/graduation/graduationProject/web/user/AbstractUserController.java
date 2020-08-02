@@ -1,12 +1,12 @@
 package graduation.graduationProject.web.user;
 
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.datajpa.UserRepository;
-import graduation.graduationProject.util.exception.NotFoundException;
+import graduation.graduationProject.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+
 
 import java.util.List;
 
@@ -17,42 +17,39 @@ public abstract class AbstractUserController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     public List<User> getAll() {
         log.info("getAll");
-        return repository.getAll();
+        return userRepository.getAll();
     }
 
     public User get(int id) {
         log.info("get {}", id);
-        User user = repository.get(id);
-        if (user != null ) {
-            return checkNotFoundWithId(user, id);
-        }
-        else throw new NotFoundException("No user with id " + id + " was found");
+        return userRepository.get(id);
     }
 
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
-        return repository.save(user);
+        Assert.notNull(user, "user must not be null");
+        return userRepository.save(user);
     }
 
     public void delete(int id) {
         log.info("delete {}", id);
-        checkNotFound(repository.delete(id), "no user with id " + id);
+        userRepository.delete(id);
     }
 
     public void update(User user, int id) {
-        Assert.notNull(user, "User cannot be null");
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
-        repository.save(user);
+        Assert.notNull(user, "user must not be null");
+        checkNotFoundWithId(userRepository.save(user), user.getId());
     }
 
     public User getByMail(String email) {
         log.info("getByEmail {}", email);
-        return repository.getByEmail(email);
+        return userRepository.getByEmail(email);
     }
 }

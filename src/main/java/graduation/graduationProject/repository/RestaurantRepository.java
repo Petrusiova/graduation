@@ -1,4 +1,4 @@
-package graduation.graduationProject.repository.datajpa;
+package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Restaurant;
 import org.springframework.data.domain.Sort;

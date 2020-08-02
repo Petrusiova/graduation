@@ -1,4 +1,4 @@
-package graduation.graduationProject.repository.datajpa;
+package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
