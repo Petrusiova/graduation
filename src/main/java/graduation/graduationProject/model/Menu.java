@@ -1,6 +1,5 @@
 package graduation.graduationProject.model;
 
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
