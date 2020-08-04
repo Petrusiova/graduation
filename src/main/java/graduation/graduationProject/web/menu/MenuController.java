@@ -1,32 +1,30 @@
-//package graduation.graduationProject.web.menu;
-//
-//import graduation.graduationProject.model.Menu;
-//import graduation.graduationProject.repository.MenuRepository;
-//import graduation.graduationProject.util.exception.NotFoundException;
-//import graduation.graduationProject.web.SecurityUtil;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.util.Assert;
-//
-//import java.time.LocalDate;
-//import java.util.List;
-//
-//import static graduation.graduationProject.util.ValidationUtil.*;
-//
-//@Controller
-//public class MenuController {
-//
-//    protected final Logger log = LoggerFactory.getLogger(getClass());
-//
-//    @Autowired
-//    private MenuRepository repository;
-//
-//    public List<Menu> getAll() {
-//        log.info("getAll");
-//        return repository.getAll();
+package graduation.graduationProject.web.menu;
+
+import graduation.graduationProject.model.Menu;
+import graduation.graduationProject.repository.MenuRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.List;
+
+@Controller
+public class MenuController {
+
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MenuRepository repository;
+
+//    public MenuController(MenuRepository repository) {
+//        this.repository = repository;
 //    }
+
+    public List<Menu> getAll() {
+        log.info("getAll");
+        return repository.getAll();
+    }
 //
 //    public Menu get(int id) {
 //        log.info("get {}", id);
@@ -85,4 +83,4 @@
 //        int userId = SecurityUtil.authUserId();
 //        repository.save(menu, userId); // TODO: 01.08.2020 check it
 //    }
-//}
+}

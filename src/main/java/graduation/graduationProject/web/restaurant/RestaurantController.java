@@ -1,26 +1,29 @@
-//package graduation.graduationProject.web.restaurant;
-//
-//import graduation.graduationProject.model.Restaurant;
-//import graduation.graduationProject.repository.RestaurantRepository;
-//import graduation.graduationProject.util.exception.NotFoundException;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.util.Assert;
-//
-//import java.util.List;
-//
-//import static graduation.graduationProject.util.ValidationUtil.*;
-//
-//@Controller
-//public class RestaurantController {
-//
-//    protected final Logger log = LoggerFactory.getLogger(getClass());
-//
-//    @Autowired
-//    private RestaurantRepository repository;
-//
+package graduation.graduationProject.web.restaurant;
+
+import graduation.graduationProject.model.Restaurant;
+import graduation.graduationProject.repository.RestaurantRepository;
+import graduation.graduationProject.util.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+
+import java.util.List;
+
+import static graduation.graduationProject.util.ValidationUtil.*;
+
+@Controller
+public class RestaurantController {
+
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    private final RestaurantRepository repository;
+
+    public RestaurantController(RestaurantRepository repository) {
+        this.repository = repository;
+    }
+
 //    public List<Restaurant> getAll() {
 //        log.info("getAll");
 //        return repository.getAll();
@@ -64,4 +67,4 @@
 //        assureIdConsistent(restaurant, id);
 //        repository.save(restaurant);
 //    }
-//}
+}

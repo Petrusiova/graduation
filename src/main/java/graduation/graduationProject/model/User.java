@@ -1,6 +1,5 @@
 package graduation.graduationProject.model;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -12,8 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
-
-import static graduation.graduationProject.util.UserUtil.DEFAULT_CALORIES_PER_DAY;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})

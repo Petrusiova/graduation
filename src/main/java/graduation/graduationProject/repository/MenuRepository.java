@@ -2,7 +2,6 @@ package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Menu;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,19 +11,18 @@ import java.util.List;
 public class MenuRepository {
 
     private final CrudMenuRepository crudMenuRepository;
-    private final CrudRestaurantRepository crudRestaurantRepository;
+//    private final CrudRestaurantRepository crudRestaurantRepository;
 
-    public MenuRepository(CrudMenuRepository crudMenuRepository, CrudRestaurantRepository crudRestaurantRepository) {
+    public MenuRepository(CrudMenuRepository crudMenuRepository) {
         this.crudMenuRepository = crudMenuRepository;
-        this.crudRestaurantRepository = crudRestaurantRepository;
+//        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
-    @Transactional
     public Menu save(Menu menu, int id_rest) {
         if (!menu.isNew() && get(menu.getId(), id_rest) == null) {
             return null;
         }
-        menu.setRestaurant(crudRestaurantRepository.get(id_rest));
+//        menu.setRestaurant(crudRestaurantRepository.get(id_rest));
         return crudMenuRepository.save(menu);
     }
 

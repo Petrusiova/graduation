@@ -9,7 +9,6 @@ import java.util.List;
 
 
 @Repository
-@Transactional(readOnly = true)
 public class RestaurantRepository {
 
     private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");

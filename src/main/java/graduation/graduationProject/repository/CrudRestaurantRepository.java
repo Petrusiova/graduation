@@ -1,6 +1,5 @@
 package graduation.graduationProject.repository;
 
-import graduation.graduationProject.model.Menu;
 import graduation.graduationProject.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

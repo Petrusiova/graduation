@@ -1,6 +1,6 @@
 package graduation.graduationProject.to;
 
-public abstract class BaseTo implements HasId {
+public abstract class BaseTo {
     protected Integer id;
 
     public BaseTo() {
@@ -10,12 +10,10 @@ public abstract class BaseTo implements HasId {
         this.id = id;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
