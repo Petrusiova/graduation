@@ -1,6 +1,7 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.User;
+import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +32,7 @@ public class UserRepository {
     }
 
     public User get(int id) {
-        return checkNotFoundWithId(crudUserRepository.findById(id).orElse(null), id);
+        return crudUserRepository.findById(id).orElseThrow(() -> new NotFoundException("No user with id = " + id));
     }
 
     public User getByEmail(String email) {

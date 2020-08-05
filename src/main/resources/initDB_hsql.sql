@@ -42,11 +42,11 @@ CREATE TABLE menu
   id_rest     INTEGER      NOT NULL,
   meal        VARCHAR(255) NOT NULL,
   price       INTEGER       NOT NULL,
-  date        TIMESTAMP    NOT NULL,
-  FOREIGN KEY (id_rest) REFERENCES restaurants (id)
+  date        TIMESTAMP    NOT NULL
+--   FOREIGN KEY (id_rest) REFERENCES restaurants (id) ON DELETE NO ACTION
 );
 CREATE UNIQUE INDEX menu_unique_restaurant_meal_date_idx
-  ON menu (meal, date);
+  ON menu (meal, date, id_rest);
 
 
 
@@ -57,7 +57,7 @@ CREATE UNIQUE INDEX menu_unique_restaurant_meal_date_idx
   id_rest     INTEGER      NOT NULL,
   date        TIMESTAMP    NOT NULL,
   FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE,
-  FOREIGN KEY (id_rest) REFERENCES restaurants (id)
---   CONSTRAINT votes_idx UNIQUE (user_id, date)
+--   FOREIGN KEY (id_rest) REFERENCES restaurants (id)
+  CONSTRAINT votes_idx UNIQUE (user_id, date)
 );
 

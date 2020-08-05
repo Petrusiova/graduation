@@ -1,7 +1,6 @@
 package graduation.graduationProject;
 
 import graduation.graduationProject.model.Menu;
-import graduation.graduationProject.to.MenuTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +21,7 @@ public class MenuTestData {
     public static final LocalDate MENU_DATE = LocalDate.of(2020, 4, 6);
 
     public static final int MENU_1_ID = START_SEQ + 5;
-    public static final int MENU_1_RESTAURANT_ID = 100002;
+    public static final int MENU_1_RESTAURANT_ID = START_SEQ + 2;
 
 
 

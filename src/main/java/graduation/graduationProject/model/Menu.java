@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"meal", "date"}, name = "menu_unique_restaurant_meal_date_idx")})
+@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"meal", "date", "id_rest"}, name = "menu_unique_restaurant_meal_date_idx")})
 public class Menu extends AbstractBaseEntity {
 
     @Column(name = "meal", nullable = false)
@@ -28,7 +28,7 @@ public class Menu extends AbstractBaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_rest", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
 //    @NotNull(groups = View.Persist.class)
     @NotNull
     private Restaurant restaurant;

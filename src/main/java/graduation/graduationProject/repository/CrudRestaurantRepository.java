@@ -12,6 +12,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
+    Restaurant getByName(String name);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
@@ -23,6 +25,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("SELECT r FROM Restaurant r ORDER BY r.name")
     List<Restaurant> getAll();
 
-    @Query("SELECT r FROM Restaurant r WHERE r.name=:name")
-    Restaurant getByName(@Param("name") String name);
+//    @Query("SELECT r FROM Restaurant r WHERE r.name=:name")
+//    Restaurant getByName(@Param("name") String name);
+
 }

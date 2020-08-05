@@ -1,11 +1,14 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Restaurant;
+import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static graduation.graduationProject.util.ValidationUtil.checkNotFound;
+import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
 
 
 @Repository
@@ -24,15 +27,17 @@ public class RestaurantRepository {
     }
 
     public boolean delete(int id) {
-        return crudRestaurantRepository.delete(id) != 0;
+        boolean found = crudRestaurantRepository.delete(id) != 0;
+        checkNotFoundWithId(found, id);
+        return true;
     }
 
     public Restaurant get(int id) {
-        return crudRestaurantRepository.findById(id).orElse(null);
+        return crudRestaurantRepository.findById(id).orElseThrow(() -> new NotFoundException("No restaurant with id = " + id));
     }
 
     public Restaurant getByName(String name) {
-        return crudRestaurantRepository.getByName(name);
+        return checkNotFound(crudRestaurantRepository.getByName(name), "name = " + name);
     }
 
     public List<Restaurant> getAll() {
