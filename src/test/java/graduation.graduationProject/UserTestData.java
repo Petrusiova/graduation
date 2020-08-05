@@ -27,5 +27,5 @@ public class UserTestData {
         return updated;
     }
 
-    public static TestMatcher<User> USER_MATCHER = TestMatcher.of("registered", "roles");
+    public static TestMatcher<User> USER_MATCHER = TestMatcher.usingFieldsComparator(User.class,"registered", "roles");
 }

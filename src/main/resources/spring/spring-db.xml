@@ -15,7 +15,7 @@
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="initDB_hsql.sql"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        <jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>
     </jdbc:initialize-database>
 
     <!-- Choose profile from (hsqldb/ postgres) and (jdbc/ datajpa/ jpa) -->

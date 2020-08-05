@@ -1,41 +1,45 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Menu;
+import graduation.graduationProject.util.exception.NotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
+
 
 @Repository
 public class MenuRepository {
 
-    private final CrudMenuRepository crudMenuRepository;
-//    private final CrudRestaurantRepository crudRestaurantRepository;
+    private static final Sort SORT_DATE_DESC = Sort.by(Sort.Direction.DESC, "date");
 
-    public MenuRepository(CrudMenuRepository crudMenuRepository) {
+    private final CrudMenuRepository crudMenuRepository;
+    private final CrudRestaurantRepository crudRestaurantRepository;
+
+    public MenuRepository(CrudMenuRepository crudMenuRepository, CrudRestaurantRepository crudRestaurantRepository) {
         this.crudMenuRepository = crudMenuRepository;
-//        this.crudRestaurantRepository = crudRestaurantRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     public Menu save(Menu menu, int id_rest) {
-        if (!menu.isNew() && get(menu.getId(), id_rest) == null) {
-            return null;
-        }
-//        menu.setRestaurant(crudRestaurantRepository.get(id_rest));
+        menu.setRestaurant(crudRestaurantRepository.get(id_rest));
         return crudMenuRepository.save(menu);
     }
 
-    public boolean delete(int id, int userId) {
-        return crudMenuRepository.delete(id, userId) != 0;
+    public boolean delete(int id) {
+        checkNotFoundWithId(crudMenuRepository.delete(id) != 0, id);
+        return true;
     }
 
-    public Menu get(int id, int id_rest) {
-        return crudMenuRepository.findById(id).filter(item -> id_rest == item.getRestaurant().getId()).orElse(null);
+    public Menu get(int id) {
+        return crudMenuRepository.findById(id).orElseThrow(() -> new NotFoundException("No menu with id = " + id));
     }
 
     public List<Menu> getAll() {
-        return crudMenuRepository.findAll();
+        return crudMenuRepository.findAll(SORT_DATE_DESC);
     }
 
     public List<Menu> getAllByDate(LocalDate date) {

@@ -13,48 +13,50 @@ import java.time.LocalDate;
 @Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"meal", "date"}, name = "menu_unique_restaurant_meal_date_idx")})
 public class Menu extends AbstractBaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rest", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull(groups = View.Persist.class)
-    private Restaurant restaurant;
-
     @Column(name = "meal", nullable = false)
     @NotBlank
     @Size(max = 100)
     private String meal;
 
-    @Column(name = "price", nullable = false, columnDefinition = "double")
+    @Column(name = "price", nullable = false)
     @NotNull
-    private Double price;
+    private Integer price;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     private LocalDate date;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rest", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @NotNull(groups = View.Persist.class)
+    @NotNull
+    private Restaurant restaurant;
+
     public Menu(){
-
+    }
+    
+    public Menu(@NotNull Menu m){
+        this(m.getId(), m.getMeal(), m.getPrice(), m.getDate());
     }
 
-    public Menu(int id_rest, String meal, Double price){
-        this(null, id_rest, meal, price, LocalDate.now());
+    public Menu(String meal, Integer price){
+        this(null, meal, price, LocalDate.now());
     }
 
-    public Menu(int id_rest, String meal, Double price, LocalDate date){
-        this(null, id_rest, meal, price, date);
+    public Menu(String meal, Integer price, LocalDate date){
+        this(null, meal, price, date);
     }
 
-    public Menu(Integer id, int id_rest, String meal, Double price){
-        this(id, id_rest, meal, price, LocalDate.now());
-
+    public Menu(Integer id, String meal, Integer price){
+        this(id, meal, price, LocalDate.now());
     }
 
-    public Menu(Integer id, int id_rest, String meal, Double price, LocalDate date){
+    public Menu(Integer id, String meal, Integer price, LocalDate date){
         super(id);
         this.meal = meal;
         this.price = price;
         this.date = date;
-
     }
 
     public String getMeal() {
@@ -65,11 +67,11 @@ public class Menu extends AbstractBaseEntity {
         this.meal = meal;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

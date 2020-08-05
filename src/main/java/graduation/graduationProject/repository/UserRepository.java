@@ -42,8 +42,8 @@ public class UserRepository {
         return crudUserRepository.findAll(SORT_NAME_EMAIL);
     }
 
-    public User getWithMeals(int id) {
-        return crudUserRepository.getWithVotes(id);
-    }
+//    public User getWithMeals(int id) {
+//        return crudUserRepository.getWithVotes(id);
+//    }
 }
 

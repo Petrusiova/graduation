@@ -1,4 +1,4 @@
-package user;
+package repo;
 
 import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
@@ -14,19 +14,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import repo.AbstractRepoTest;
 
 import java.util.List;
 
 import static graduation.graduationProject.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringJUnitConfig(locations = {
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({"hsqldb", "datajpa"})
-public class UserControllerTest {
+
+public class UserRepoTest extends AbstractRepoTest {
 
 
     @Autowired
