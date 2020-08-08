@@ -15,8 +15,6 @@ public class RestaurantTestData {
     public static final Restaurant VICTORIA = new Restaurant(START_SEQ + 3, "VICTORIA");
     public static final Restaurant TIFFANY = new Restaurant(START_SEQ + 4, "TIFFANY");
 
-    public static final List<Restaurant> ALL_RESTS = new ArrayList<Restaurant>(List.of(ASTORIA, VICTORIA, TIFFANY));
-
     public static final int ASTORIA_ID = START_SEQ + 2;
 
     public static Restaurant getNew() {
