@@ -54,7 +54,7 @@ public class RestaurantRepoTest extends AbstractRepoTest {
     }
 
     @Test
-    public void deleteWithOtherData() throws Exception {
+    public void deleteRestaurantWithRelations() throws Exception {
         assertThrows(DataIntegrityViolationException.class,
                 () -> repository.delete(ASTORIA_ID));
     }

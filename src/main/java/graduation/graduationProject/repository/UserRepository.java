@@ -25,6 +25,8 @@ public class UserRepository {
         return crudUserRepository.save(user);
     }
 
+
+    // could be used to delete only a new user with no relations
     public boolean delete(int id) {
         boolean found = crudUserRepository.delete(id) != 0;
         checkNotFoundWithId(found, id);

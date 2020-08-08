@@ -26,6 +26,7 @@ public class RestaurantRepository {
         return crudRestaurantRepository.save(restaurant);
     }
 
+    // Could be used to delete only a new restaurant with no relations
     public boolean delete(int id) {
         boolean found = crudRestaurantRepository.delete(id) != 0;
         checkNotFoundWithId(found, id);

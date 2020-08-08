@@ -1,6 +1,5 @@
 package graduation.graduationProject.repository;
 
-import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -5,6 +5,7 @@ import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,10 @@ public class UserRepoTest extends AbstractRepoTest {
 
     @Test
     public void delete() throws Exception {
-        Assertions.assertTrue(repository.delete(USER_ID));
+        int id = repository.save(getNew()).getId();
+        Assertions.assertTrue(repository.delete(id));
         assertThrows(NotFoundException.class,
-                () -> repository.get(USER_ID));
+                () -> repository.get(id));
     }
 
     @Test
