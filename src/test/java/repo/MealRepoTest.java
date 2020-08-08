@@ -1,20 +1,21 @@
 package repo;
 
 import graduation.graduationProject.RestaurantTestData;
-import graduation.graduationProject.VoteTestData;
 import graduation.graduationProject.model.Meal;
-import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
+import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static graduation.graduationProject.MealTestData.*;
+import static graduation.graduationProject.UserTestData.USER_ID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -122,5 +123,14 @@ public class MealRepoTest extends AbstractRepoTest {
     void getWithVotesNotFound() throws Exception {
         Assertions.assertThrows(NotFoundException.class,
                 () -> repository.getWithRestaurant(MEAL_1_ID, 2));
+    }
+
+
+    @Test
+    public void createWithException() throws Exception {
+        validateRootCause(() -> repository.save(new Meal(null, LocalDate.of(2015, Month.JUNE, 1), "  ", 300), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new Meal(null, LocalDate.of(2015, Month.JUNE, 1), "Description", 9), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new Meal(null, LocalDate.of(2015, Month.JUNE, 1), "Description", 5001), USER_ID), ConstraintViolationException.class);
     }
 }

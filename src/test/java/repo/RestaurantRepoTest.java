@@ -2,6 +2,8 @@ package repo;
 
 import graduation.graduationProject.VoteTestData;
 import graduation.graduationProject.model.Restaurant;
+import graduation.graduationProject.model.Role;
+import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.RestaurantRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -9,12 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static graduation.graduationProject.MealTestData.MEAL_1;
 import static graduation.graduationProject.MealTestData.MEAL_MATCHER;
 import static graduation.graduationProject.RestaurantTestData.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static graduation.graduationProject.UserTestData.USER_ID;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class RestaurantRepoTest extends AbstractRepoTest {
@@ -105,5 +109,18 @@ public class RestaurantRepoTest extends AbstractRepoTest {
     void getWithVotesNotFound() throws Exception {
         Assertions.assertThrows(NotFoundException.class,
                 () -> repository.getWithVotes(123));
+    }
+
+    @Test
+    public void createWithException() throws Exception {
+        validateRootCause(() -> repository.save(new Restaurant(null, "  ")), ConstraintViolationException.class);
+    }
+
+    @Test
+    void enable() {
+        repository.enable(ASTORIA_ID, false);
+        assertFalse(repository.get(ASTORIA_ID).isEnabled());
+        repository.enable(ASTORIA_ID, true);
+        assertTrue(repository.get(ASTORIA_ID).isEnabled());
     }
 }

@@ -2,6 +2,8 @@ package repo;
 
 import graduation.graduationProject.RestaurantTestData;
 import graduation.graduationProject.UserTestData;
+import graduation.graduationProject.model.Role;
+import graduation.graduationProject.model.User;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static graduation.graduationProject.RestaurantTestData.ASTORIA;
@@ -100,5 +104,10 @@ public class VoteRepoTest extends AbstractRepoTest {
     public void getWithNotFound() throws Exception {
         assertThrows(NotFoundException.class,
                 () -> repository.getWithUser(VOTE_1_ID, USER_ID - 159));
+    }
+
+    @Test
+    public void createWithException() throws Exception {
+        validateRootCause(() -> repository.save(new Vote(null, null), USER_ID, ASTORIA_ID), ConstraintViolationException.class);
     }
 }

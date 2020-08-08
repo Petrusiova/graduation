@@ -3,6 +3,7 @@ package graduation.graduationProject.repository;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ public class UserRepository {
         return checkNotFound(crudUserRepository.getByEmail(email), "email=" + email);
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
         return crudUserRepository.findAll(SORT_NAME_EMAIL);
     }

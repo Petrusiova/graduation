@@ -9,11 +9,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import javax.validation.ConstraintViolationException;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static graduation.graduationProject.UserTestData.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserRepoTest extends AbstractRepoTest {
@@ -94,5 +97,20 @@ public class UserRepoTest extends AbstractRepoTest {
     void getWithVotesNotFound() throws Exception {
         assertThrows(NotFoundException.class,
                 () -> repository.getWithVotes(1));
+    }
+
+    @Test
+    public void createWithException() throws Exception {
+        validateRootCause(() -> repository.save(new User(null, "  ", "mail@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new User(null, "User", "mail@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
+    }
+
+    @Test
+    void enable() {
+        repository.enable(USER_ID, false);
+        assertFalse(repository.get(USER_ID).isEnabled());
+        repository.enable(USER_ID, true);
+        assertTrue(repository.get(USER_ID).isEnabled());
     }
 }
