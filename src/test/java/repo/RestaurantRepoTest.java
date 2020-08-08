@@ -19,18 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RestaurantRepoTest extends AbstractRepoTest {
 
-
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private RestaurantRepository repository;
-
-    //    @Autowired
-//    private CacheManager cacheManager;
-
-//    @Before
-//    public void setUp() throws Exception {
-//        cacheManager.getCache("users").clear();
-//    }
 
     @Test
     public void create() throws Exception {

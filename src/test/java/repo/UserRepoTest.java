@@ -5,7 +5,6 @@ import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
-import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserRepoTest extends AbstractRepoTest {
 
-
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private UserRepository repository;
-
-    //    @Autowired
-//    private CacheManager cacheManager;
-
-//    @Before
-//    public void setUp() throws Exception {
-//        cacheManager.getCache("users").clear();
-//    }
 
     @Test
     public void create() throws Exception {
@@ -102,7 +92,7 @@ public class UserRepoTest extends AbstractRepoTest {
 
     @Test
     void getWithVotesNotFound() throws Exception {
-        Assertions.assertThrows(NotFoundException.class,
+        assertThrows(NotFoundException.class,
                 () -> repository.getWithVotes(1));
     }
 }

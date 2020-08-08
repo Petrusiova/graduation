@@ -1,9 +1,12 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Restaurant;
+import graduation.graduationProject.model.User;
 import graduation.graduationProject.util.exception.NotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,16 +25,9 @@ public class RestaurantRepository {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant save(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
-    }
-
-    // Could be used to delete only a new restaurant with no relations
-    // Use disable method to turn off the opportunity to add meals and votes
-    public boolean delete(int id) {
-        boolean found = crudRestaurantRepository.delete(id) != 0;
-        checkNotFoundWithId(found, id);
-        return true;
     }
 
     public Restaurant get(int id) {
@@ -52,5 +48,24 @@ public class RestaurantRepository {
 
     public Restaurant getWithVotes(int id){
         return checkNotFoundWithId(crudRestaurantRepository.getWithVotes(id), id);
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    @Transactional
+    public void enable(int id, boolean enabled) {
+        Restaurant restaurant = checkNotFoundWithId(get(id), id);
+        restaurant.setEnabled(enabled);
+        crudRestaurantRepository.save(restaurant);
+    }
+
+    /**
+     * could be used to delete only a new user with no relations
+     * Use {@link #enable(int, boolean)} to turn off the opportunity to add meals and votes
+     **/
+    @CacheEvict(value = "restaurants", allEntries = true)
+    public boolean delete(int id) {
+        boolean found = crudRestaurantRepository.delete(id) != 0;
+        checkNotFoundWithId(found, id);
+        return true;
     }
 }

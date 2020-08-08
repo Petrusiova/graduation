@@ -8,4 +8,6 @@
 
     <context:component-scan base-package="graduation.**.web"/>
 
+    <import resource="spring-cache.xml"/>
+
 </beans>

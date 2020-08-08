@@ -21,18 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MealRepoTest extends AbstractRepoTest {
 
-
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private MealRepository repository;
-
-    //    @Autowired
-//    private CacheManager cacheManager;
-
-//    @Before
-//    public void setUp() throws Exception {
-//        cacheManager.getCache("users").clear();
-//    }
 
     @Test
     public void create() throws Exception {

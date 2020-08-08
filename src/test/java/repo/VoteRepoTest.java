@@ -21,18 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VoteRepoTest extends AbstractRepoTest {
 
-
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private VoteRepository repository;
-
-    //    @Autowired
-//    private CacheManager cacheManager;
-
-//    @Before
-//    public void setUp() throws Exception {
-//        cacheManager.getCache("users").clear();
-//    }
 
     @Test
     public void create() throws Exception {
