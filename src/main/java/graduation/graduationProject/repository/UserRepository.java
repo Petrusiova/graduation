@@ -27,6 +27,7 @@ public class UserRepository {
 
 
     // could be used to delete only a new user with no relations
+    // Use disable method to turn off the opportunity to add meals and votes
     public boolean delete(int id) {
         boolean found = crudUserRepository.delete(id) != 0;
         checkNotFoundWithId(found, id);

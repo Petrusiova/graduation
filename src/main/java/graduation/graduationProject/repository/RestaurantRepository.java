@@ -27,6 +27,7 @@ public class RestaurantRepository {
     }
 
     // Could be used to delete only a new restaurant with no relations
+    // Use disable method to turn off the opportunity to add meals and votes
     public boolean delete(int id) {
         boolean found = crudRestaurantRepository.delete(id) != 0;
         checkNotFoundWithId(found, id);
