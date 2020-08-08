@@ -1,5 +1,8 @@
 package graduation.graduationProject.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,16 +25,19 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
-    private List<Meal> menus;
+    private List<Meal> meals;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
     private List<Vote> votes;
 
-    public List<Meal> getMenus() {
-        return menus;
+    public List<Meal> getMeals() {
+        return meals;
     }
 
     public List<Vote> getVotes() {

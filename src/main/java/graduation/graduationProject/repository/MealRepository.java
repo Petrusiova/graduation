@@ -52,4 +52,8 @@ public class MealRepository {
     public List<Meal> getAllByRestaurantAndDate(int id_rest, LocalDate date) {
         return crudMealRepository.getByRestaurantAndDate(id_rest, date);
     }
+
+    public Meal getWithRestaurant(int id, int id_rest) {
+        return checkNotFoundWithId(crudMealRepository.getWithRestaurant(id, id_rest), id);
+    }
 }

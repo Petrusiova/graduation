@@ -26,11 +26,11 @@ public class RestaurantRepository {
         return crudRestaurantRepository.save(restaurant);
     }
 
-//    public boolean delete(int id) {
-//        boolean found = crudRestaurantRepository.delete(id) != 0;
-//        checkNotFoundWithId(found, id);
-//        return true;
-//    }
+    public boolean delete(int id) {
+        boolean found = crudRestaurantRepository.delete(id) != 0;
+        checkNotFoundWithId(found, id);
+        return true;
+    }
 
     public Restaurant get(int id) {
         return crudRestaurantRepository.findById(id).orElseThrow(() -> new NotFoundException("No restaurant with id = " + id));
@@ -42,5 +42,13 @@ public class RestaurantRepository {
 
     public List<Restaurant> getAll() {
         return crudRestaurantRepository.findAll(SORT_NAME);
+    }
+
+    public Restaurant getWithMeals(int id){
+        return checkNotFoundWithId(crudRestaurantRepository.getWithMeals(id), id);
+    }
+
+    public Restaurant getWithVotes(int id){
+        return checkNotFoundWithId(crudRestaurantRepository.getWithVotes(id), id);
     }
 }

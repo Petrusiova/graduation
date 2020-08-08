@@ -1,5 +1,6 @@
 package repo;
 
+import graduation.graduationProject.VoteTestData;
 import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
@@ -88,5 +89,18 @@ public class UserRepoTest extends AbstractRepoTest {
     public void getAll() throws Exception {
         List<User> all = repository.getAll();
         USER_MATCHER.assertMatch(all, ADMIN, USER);
+    }
+
+    @Test
+    void getWithVotes() throws Exception {
+        User user = repository.getWithVotes(USER_ID);
+        USER_MATCHER.assertMatch(user, USER);
+        VoteTestData.VOTE_MATCHER.assertMatch(user.getVotes(), VoteTestData.VOTE_1, VoteTestData.VOTE_3);
+    }
+
+    @Test
+    void getWithVotesNotFound() throws Exception {
+        Assertions.assertThrows(NotFoundException.class,
+                () -> repository.getWithVotes(1));
     }
 }

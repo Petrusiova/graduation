@@ -1,6 +1,9 @@
 package repo;
 
+import graduation.graduationProject.RestaurantTestData;
+import graduation.graduationProject.VoteTestData;
 import graduation.graduationProject.model.Meal;
+import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -117,16 +120,16 @@ public class MealRepoTest extends AbstractRepoTest {
         MEAL_MATCHER.assertMatch(all, MEAL_1);
     }
 
-    //    @Test
-//    void getWithUser() throws Exception {
-//        Meal adminMeal = service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
-//        MEAL_MATCHER.assertMatch(adminMeal, ADMIN_MEAL1);
-//        UserTestData.USER_MATCHER.assertMatch(adminMeal.getUser(), UserTestData.ADMIN);
-//    }
-//
-//    @Test
-//    void getWithUserNotFound() throws Exception {
-//        Assertions.assertThrows(NotFoundException.class,
-//                () -> service.getWithUser(1, ADMIN_ID));
-//    }
+    @Test
+    void getWithVotes() throws Exception {
+        Meal meal = repository.getWithRestaurant(MEAL_1_ID, RestaurantTestData.ASTORIA_ID);
+        MEAL_MATCHER.assertMatch(meal, MEAL_1);
+        RestaurantTestData.REST_MATCHER.assertMatch(meal.getRestaurant(), RestaurantTestData.ASTORIA);
+    }
+
+    @Test
+    void getWithVotesNotFound() throws Exception {
+        Assertions.assertThrows(NotFoundException.class,
+                () -> repository.getWithRestaurant(MEAL_1_ID, 2));
+    }
 }

@@ -1,6 +1,8 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Meal;
+import graduation.graduationProject.model.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +31,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:id_rest AND m.date=:date ORDER BY m.date, m.restaurant.id DESC")
     List<Meal> getByRestaurantAndDate(@Param("id_rest") int id_rest, @Param("date") LocalDate date);
+
+    @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.id = ?1 and m.restaurant.id = ?2")
+    Meal getWithRestaurant(int id, int id_rest);
 }

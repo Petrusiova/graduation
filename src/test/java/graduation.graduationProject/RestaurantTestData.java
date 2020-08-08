@@ -9,7 +9,7 @@ import static graduation.graduationProject.model.AbstractBaseEntity.START_SEQ;
 
 public class RestaurantTestData {
 
-    public static TestMatcher<Restaurant> REST_MATCHER = TestMatcher.usingFieldsComparator(Restaurant.class, "menus", "votes");
+    public static TestMatcher<Restaurant> REST_MATCHER = TestMatcher.usingFieldsComparator(Restaurant.class, "meals", "votes");
 
     public static final Restaurant ASTORIA = new Restaurant(START_SEQ + 2, "ASTORIA");
     public static final Restaurant VICTORIA = new Restaurant(START_SEQ + 3, "VICTORIA");

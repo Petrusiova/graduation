@@ -49,4 +49,12 @@ public class VoteRepository {
         checkNotFoundWithId(crudVoteRepository.delete(id, userId) != 0, id);
         return true;
     }
+
+    public Vote getWithRestaurant(int id, int id_rest, int userId) {
+        return checkNotFoundWithId(crudVoteRepository.getWithRestaurant(id, id_rest, userId), id);
+    }
+
+    public Vote getWithUser(int id, int userId) {
+        return checkNotFoundWithId(crudVoteRepository.getWithUser(id, userId), id);
+    }
 }

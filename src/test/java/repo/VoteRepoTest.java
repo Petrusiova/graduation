@@ -1,5 +1,7 @@
 package repo;
 
+import graduation.graduationProject.RestaurantTestData;
+import graduation.graduationProject.UserTestData;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static graduation.graduationProject.RestaurantTestData.ASTORIA;
 import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
 import static graduation.graduationProject.UserTestData.ADMIN_ID;
 import static graduation.graduationProject.UserTestData.USER_ID;
@@ -86,5 +89,25 @@ public class VoteRepoTest extends AbstractRepoTest {
     public void getAll() throws Exception {
         List<Vote> all = repository.getAll(USER_ID);
         VOTE_MATCHER.assertMatch(all, VOTE_1, VOTE_3);
+    }
+
+    @Test
+    public void getWithRestaurant() throws Exception {
+        Vote vote = repository.getWithRestaurant(VOTE_1_ID, ASTORIA_ID, USER_ID);
+        VOTE_MATCHER.assertMatch(vote, VOTE_1);
+        RestaurantTestData.REST_MATCHER.assertMatch(vote.getRestaurant(), ASTORIA);
+    }
+
+    @Test
+    public void getWithUser() throws Exception {
+        Vote vote = repository.getWithUser(VOTE_1_ID, USER_ID);
+        VOTE_MATCHER.assertMatch(vote, VOTE_1);
+        UserTestData.USER_MATCHER.assertMatch(vote.getUser(), UserTestData.USER);
+    }
+
+    @Test
+    public void getWithNotFound() throws Exception {
+        assertThrows(NotFoundException.class,
+                () -> repository.getWithUser(VOTE_1_ID, USER_ID - 159));
     }
 }
