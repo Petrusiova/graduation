@@ -1,7 +1,7 @@
 package repo;
 
-import graduation.graduationProject.model.Menu;
-import graduation.graduationProject.repository.MenuRepository;
+import graduation.graduationProject.model.Meal;
+import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,19 +10,18 @@ import org.springframework.dao.DataAccessException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 
-import static graduation.graduationProject.MenuTestData.*;
+import static graduation.graduationProject.MealTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class MenuRepoTest extends AbstractRepoTest {
+public class MealRepoTest extends AbstractRepoTest {
 
 
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    private MenuRepository repository;
+    private MealRepository repository;
 
     //    @Autowired
 //    private CacheManager cacheManager;
@@ -34,25 +33,27 @@ public class MenuRepoTest extends AbstractRepoTest {
 
     @Test
     public void create() throws Exception {
-        Menu newMenu = getNew();
-        Menu created = repository.save(newMenu, MENU_1_RESTAURANT_ID);
+        Meal newMeal = getNew();
+        Meal created = repository.save(newMeal, MEAL_1_RESTAURANT_ID);
+
         Integer newId = created.getId();
-        newMenu.setId(newId);
-        MENU_MATCHER.assertMatch(created, newMenu);
-        MENU_MATCHER.assertMatch(repository.get(newId), newMenu);
+        newMeal.setId(newId);
+
+        MEAL_MATCHER.assertMatch(created, newMeal);
+        MEAL_MATCHER.assertMatch(repository.get(newId), newMeal);
     }
 
     @Test
-    public void duplicateMenuCreate() throws Exception {
+    public void duplicateMealCreate() throws Exception {
         assertThrows(DataAccessException.class,
-                () -> repository.save(new Menu(MENU_1.getMeal(), new Random().nextInt(), MENU_1.getDate()), MENU_1_RESTAURANT_ID));
+                () -> repository.save(new Meal(MEAL_1.getDate(), MEAL_1.getDescription(), MEAL_1.getPrice()), MEAL_1_RESTAURANT_ID));
     }
 
     @Test
     public void delete() throws Exception {
-        Assertions.assertTrue(repository.delete(MENU_1_ID));
+        Assertions.assertTrue(repository.delete(MEAL_1_ID));
         assertThrows(NotFoundException.class,
-                () -> repository.get(MENU_1_ID));
+                () -> repository.get(MEAL_1_ID));
     }
 
     @Test
@@ -63,8 +64,8 @@ public class MenuRepoTest extends AbstractRepoTest {
 
     @Test
     public void get() throws Exception {
-        Menu menu = repository.get(MENU_1_ID);
-        MENU_MATCHER.assertMatch(menu, MENU_1);
+        Meal Meal = repository.get(MEAL_1_ID);
+        MEAL_MATCHER.assertMatch(Meal, MEAL_1);
     }
 
     @Test
@@ -75,45 +76,45 @@ public class MenuRepoTest extends AbstractRepoTest {
 
     @Test
     public void update() throws Exception {
-        Menu updated = getUpdated();
-        repository.save(updated, MENU_1_RESTAURANT_ID);
-        MENU_MATCHER.assertMatch(repository.get(MENU_1_ID), updated);
+        Meal updated = getUpdated();
+        repository.save(updated, MEAL_1_RESTAURANT_ID);
+        MEAL_MATCHER.assertMatch(repository.get(MEAL_1_ID), updated);
     }
 
     @Test
     public void getAll() throws Exception {
-        List<Menu> all = repository.getAll();
-        MENU_MATCHER.assertMatch(all, ALL_MENU);
+        List<Meal> all = repository.getAll();
+        MEAL_MATCHER.assertMatch(all, MEALS);
     }
 
     @Test
     public void getAllByDate() throws Exception {
-        List<Menu> all = repository.getAllByDate(MENU_DATE);
-        MENU_MATCHER.assertMatch(all, ALL_MENU_EQL_DATE);
+        List<Meal> all = repository.getAllByDate(LocalDate.of(2020, 4, 6));
+        MEAL_MATCHER.assertMatch(all, ALL_MEALS_EQL_DATE);
     }
 
     @Test
     public void getAllByDateNotExists() throws Exception {
-        List<Menu> all = repository.getAllByDate(LocalDate.now());
+        List<Meal> all = repository.getAllByDate(LocalDate.now());
         assertTrue(all.isEmpty());
     }
 
     @Test
     public void getAllByRestaurant() throws Exception {
-        List<Menu> all = repository.getAllByRestaurant(MENU_1_RESTAURANT_ID);
-        MENU_MATCHER.assertMatch(all, MENU_1);
+        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID);
+        MEAL_MATCHER.assertMatch(all, MEAL_1);
     }
 
     @Test
     public void getAllByRestaurantNotExists() throws Exception {
-        List<Menu> all = repository.getAllByRestaurant(MENU_1_RESTAURANT_ID - 100);
+        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID - 100);
         assertTrue(all.isEmpty());
     }
 
     @Test
     public void getAllByRestaurantAndDate() throws Exception {
-        List<Menu> all = repository.getAllByRestaurantAndDate(MENU_1_RESTAURANT_ID, MENU_DATE);
-        MENU_MATCHER.assertMatch(all, MENU_1);
+        List<Meal> all = repository.getAllByRestaurantAndDate(MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
+        MEAL_MATCHER.assertMatch(all, MEAL_1);
     }
 
     //    @Test

@@ -2,19 +2,12 @@ package repo;
 
 import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.MenuRepository;
-import graduation.graduationProject.repository.RestaurantRepository;
 import graduation.graduationProject.repository.UserRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import repo.AbstractRepoTest;
 
 import java.util.List;
 

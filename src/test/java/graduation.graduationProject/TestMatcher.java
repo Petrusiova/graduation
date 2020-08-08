@@ -1,5 +1,6 @@
 package graduation.graduationProject;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class TestMatcher<T> {
             assertThat(actual).isEqualTo(expected);
         } else {
             assertThat(actual)
-                    .usingComparatorForElementFieldsWithType(INT_COMP, Integer.class)
                     .usingElementComparatorIgnoringFields(fieldsToIgnore)
+                    .usingComparatorForElementFieldsWithType(INT_COMP, Integer.class)
                     .isEqualTo(expected);
         }
     }

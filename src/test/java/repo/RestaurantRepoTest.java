@@ -40,18 +40,18 @@ public class RestaurantRepoTest extends AbstractRepoTest {
         REST_MATCHER.assertMatch(repository.get(newId), newRest);
     }
 
-    @Test
-    public void delete() throws Exception {
-        Assertions.assertTrue(repository.delete(ASTORIA_ID));
-        assertThrows(NotFoundException.class,
-                () -> repository.get(ASTORIA_ID));
-    }
-
-    @Test
-    public void deletedNotFound() throws Exception {
-        assertThrows(NotFoundException.class,
-                () -> repository.delete(1));
-    }
+//    @Test
+//    public void delete() throws Exception {
+//        Assertions.assertTrue(repository.delete(ASTORIA_ID));
+//        assertThrows(NotFoundException.class,
+//                () -> repository.get(ASTORIA_ID));
+//    }
+//
+//    @Test
+//    public void deletedNotFound() throws Exception {
+//        assertThrows(NotFoundException.class,
+//                () -> repository.delete(1));
+//    }
 
     @Test
     public void get() throws Exception {

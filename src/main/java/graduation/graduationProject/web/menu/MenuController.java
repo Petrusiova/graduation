@@ -1,7 +1,6 @@
 package graduation.graduationProject.web.menu;
 
-import graduation.graduationProject.model.Menu;
-import graduation.graduationProject.repository.MenuRepository;
+import graduation.graduationProject.repository.MealRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,16 @@ public class MenuController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private MenuRepository repository;
+    private MealRepository repository;
 
 //    public MenuController(MenuRepository repository) {
 //        this.repository = repository;
 //    }
 
-    public List<Menu> getAll() {
-        log.info("getAll");
-        return repository.getAll();
-    }
+//    public List<Menu> getAll() {
+//        log.info("getAll");
+//        return repository.getAll();
+//    }
 //
 //    public Menu get(int id) {
 //        log.info("get {}", id);

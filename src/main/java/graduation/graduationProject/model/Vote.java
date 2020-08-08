@@ -11,16 +11,16 @@ import java.time.LocalDate;
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_idx")})
 public class Vote extends AbstractBaseEntity{
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    //    @NotNull(groups = View.Persist.class)
     private User user;
 
-    @Column(name = "id_rest", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rest", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @NotNull
-    private int id_rest;
+    private Restaurant restaurant;
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
@@ -30,16 +30,16 @@ public class Vote extends AbstractBaseEntity{
     public Vote() {
     }
 
-    public Vote(@NotNull User user, @NotNull int id_rest, @NotNull LocalDate date) {
-        this.user = user;
-        this.id_rest = id_rest;
-        this.date = date;
+    public Vote(Vote v) {
+        this(v.getId(), v.getDate());
     }
 
-    public Vote(int id, @NotNull User user, @NotNull int id_rest, @NotNull LocalDate date) {
+    public Vote(LocalDate date) {
+        this(null, date);
+    }
+
+    public Vote(Integer id, LocalDate date) {
         super(id);
-        this.user = user;
-        this.id_rest = id_rest;
         this.date = date;
     }
 
@@ -51,12 +51,12 @@ public class Vote extends AbstractBaseEntity{
         this.user = user;
     }
 
-    public int getId_rest() {
-        return id_rest;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setId_rest(int id_rest) {
-        this.id_rest = id_rest;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {

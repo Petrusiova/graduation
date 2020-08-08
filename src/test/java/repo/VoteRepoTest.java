@@ -1,0 +1,90 @@
+package repo;
+
+import graduation.graduationProject.model.Vote;
+import graduation.graduationProject.repository.VoteRepository;
+import graduation.graduationProject.util.exception.NotFoundException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
+import static graduation.graduationProject.UserTestData.ADMIN_ID;
+import static graduation.graduationProject.UserTestData.USER_ID;
+import static graduation.graduationProject.VoteTestData.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+public class VoteRepoTest extends AbstractRepoTest {
+
+
+    @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    private VoteRepository repository;
+
+    //    @Autowired
+//    private CacheManager cacheManager;
+
+//    @Before
+//    public void setUp() throws Exception {
+//        cacheManager.getCache("users").clear();
+//    }
+
+    @Test
+    public void create() throws Exception {
+        Vote newVote = getNew();
+        Vote created = repository.save(newVote, USER_ID, ASTORIA_ID);
+
+        Integer newId = created.getId();
+        newVote.setId(newId);
+
+        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(repository.get(newId, USER_ID), newVote);
+    }
+
+    @Test
+    public void delete() throws Exception {
+        Assertions.assertTrue(repository.delete(VOTE_1_ID, USER_ID));
+        assertThrows(NotFoundException.class,
+                () -> repository.get(VOTE_1_ID, USER_ID));
+    }
+
+    @Test
+    public void deletedNotFound() throws Exception {
+        assertThrows(NotFoundException.class,
+                () -> repository.delete(1, USER_ID));
+    }
+
+    @Test
+    public void get() throws Exception {
+        Vote vote = repository.get(VOTE_1_ID, USER_ID);
+        VOTE_MATCHER.assertMatch(vote, VOTE_1);
+    }
+
+    @Test
+    public void getNotOwn() throws Exception {
+        assertThrows(NotFoundException.class,
+                () -> repository.get(VOTE_1_ID, ADMIN_ID));
+    }
+
+
+    @Test
+    public void getNotFound() throws Exception {
+        assertThrows(NotFoundException.class,
+                () -> repository.get(1, ADMIN_ID));
+    }
+
+    @Test
+    public void update() throws Exception {
+        Vote updated = getUpdated();
+        Vote created = repository.save(updated, USER_ID, 100004);
+        VOTE_MATCHER.assertMatch(repository.get(created.getId(), USER_ID), updated);
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        List<Vote> all = repository.getAll(USER_ID);
+        VOTE_MATCHER.assertMatch(all, VOTE_1, VOTE_3);
+    }
+}

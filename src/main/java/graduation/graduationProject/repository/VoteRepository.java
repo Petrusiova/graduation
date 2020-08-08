@@ -1,47 +1,52 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Vote;
+import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
+
 @Repository
 public class VoteRepository {
 
-    private static final Sort SORT_DATE = Sort.by(Sort.Direction.ASC, "date");
+    private final CrudVoteRepository crudVoteRepository;
+    private final CrudUserRepository crudUserRepository;
+    private final CrudRestaurantRepository crudRestaurantRepository;
 
-private final CrudVoteRepository crudVoteRepository;
-private final CrudUserRepository crudUserRepository;
-
-    public VoteRepository(CrudVoteRepository crudVoteRepository, CrudUserRepository crudUserRepository) {
+    public VoteRepository(CrudVoteRepository crudVoteRepository,
+                          CrudUserRepository crudUserRepository,
+                          CrudRestaurantRepository crudRestaurantRepository) {
         this.crudVoteRepository = crudVoteRepository;
         this.crudUserRepository = crudUserRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     @Transactional
-    public Vote save(Vote vote, int userId) {
+    public Vote save(Vote vote, int userId, int id_rest) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
         }
         vote.setUser(crudUserRepository.getOne(userId));
+        vote.setRestaurant(crudRestaurantRepository.getOne(id_rest));
         return crudVoteRepository.save(vote);
     }
 
     public Vote get(int id, int userId) {
-        return crudVoteRepository.findById(id).filter(item -> userId == item.getUser().getId()).orElse(null);
+        return crudVoteRepository.findById(id)
+                .filter(vote -> vote.getUser().getId() == userId)
+                .orElseThrow(() -> new NotFoundException("No vote with id = " + id + " and user's id = " + userId));
     }
 
-    public List<Vote> getAll(){
-        return crudVoteRepository.findAll(SORT_DATE);
-    }
-
-    public List<Vote> getAllByUser(int userId){
-        return crudVoteRepository.getAllByUser(userId);
+    public List<Vote> getAll(int userId) {
+        return crudVoteRepository.getAll(userId);
     }
 
     public boolean delete(int id, int userId) {
-        return crudVoteRepository.delete(id, userId) != 0;
+        checkNotFoundWithId(crudVoteRepository.delete(id, userId) != 0, id);
+        return true;
     }
 }

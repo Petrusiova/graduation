@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id =:user_id")
-    List<Vote> getAllByUser(@Param("user_id") int user_id);
+    @Query("SELECT v FROM Vote v WHERE v.user.id =:user_id ORDER BY v.date DESC")
+    List<Vote> getAll(@Param("user_id") int user_id);
 
     @Modifying
     @Transactional
