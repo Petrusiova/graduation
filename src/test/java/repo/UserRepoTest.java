@@ -9,11 +9,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import javax.validation.ConstraintViolationException;
 
-import java.util.Date;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Set;
 
 import static graduation.graduationProject.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.*;
