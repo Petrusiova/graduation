@@ -13,8 +13,6 @@ import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWith
 @Repository
 public class MealRepository {
 
-//    private static final Sort SORT_DATE_DESC = Sort.by(Sort.Direction.DESC, "date");
-
     private final CrudMealRepository crudMealRepository;
     private final CrudRestaurantRepository crudRestaurantRepository;
 

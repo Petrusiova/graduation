@@ -108,7 +108,8 @@ public class MealRepoTest extends AbstractRepoTest {
 
     @Test
     public void getAllByRestaurantAndDate() throws Exception {
-        List<Meal> all = repository.getAllByRestaurantAndDate(MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
+        List<Meal> all = repository.getAllByRestaurantAndDate(
+                MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
         MEAL_MATCHER.assertMatch(all, MEAL_1);
     }
 

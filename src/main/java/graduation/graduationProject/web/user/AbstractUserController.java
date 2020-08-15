@@ -1,15 +1,13 @@
 package graduation.graduationProject.web.user;
 
-import graduation.graduationProject.model.AbstractBaseEntity;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
 import graduation.graduationProject.to.UserTo;
 import graduation.graduationProject.util.UserUtil;
-import graduation.graduationProject.util.exception.ModificationRestrictionException;
+import graduation.graduationProject.web.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -18,7 +16,7 @@ import java.util.List;
 import static graduation.graduationProject.util.ValidationUtil.assureIdConsistent;
 import static graduation.graduationProject.util.ValidationUtil.checkNew;
 
-public abstract class AbstractUserController {
+public abstract class AbstractUserController extends AbstractController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -26,14 +24,6 @@ public abstract class AbstractUserController {
 
     @Autowired
     private UniqueMailValidator emailValidator;
-
-//    private boolean modificationRestriction;
-//
-//    @Autowired
-//    @SuppressWarnings("deprecation")
-//    public void setEnvironment(Environment environment) {
-//        modificationRestriction = environment.acceptsProfiles("heroku");
-//    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -90,13 +80,5 @@ public abstract class AbstractUserController {
         log.info(enabled ? "enable {}" : "disable {}", id);
         checkModificationAllowed(id);
         userRepository.enable(id, enabled);
-    }
-
-    private void checkModificationAllowed(int id) {  // TODO: 15.08.2020 fix it <----
-        if (
-//                modificationRestriction &&
-                id < AbstractBaseEntity.START_SEQ + 2) {
-            throw new ModificationRestrictionException();
-        }
     }
 }

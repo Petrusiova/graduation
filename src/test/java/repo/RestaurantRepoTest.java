@@ -2,8 +2,6 @@ package repo;
 
 import graduation.graduationProject.VoteTestData;
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.model.Role;
-import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.RestaurantRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +15,6 @@ import java.util.List;
 import static graduation.graduationProject.MealTestData.MEAL_1;
 import static graduation.graduationProject.MealTestData.MEAL_MATCHER;
 import static graduation.graduationProject.RestaurantTestData.*;
-import static graduation.graduationProject.UserTestData.USER_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 

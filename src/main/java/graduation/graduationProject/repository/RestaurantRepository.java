@@ -1,7 +1,6 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.model.User;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;

@@ -36,7 +36,7 @@ public class UserRepoTest extends AbstractRepoTest {
     @Test
     public void duplicateMailCreate() throws Exception {
         assertThrows(DataAccessException.class,
-                () -> repository.save(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER)));
+                () -> repository.save(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.USER)));
     }
 
     @Test
@@ -99,9 +99,9 @@ public class UserRepoTest extends AbstractRepoTest {
 
     @Test
     public void createWithException() throws Exception {
-        validateRootCause(() -> repository.save(new User(null, "  ", "mail@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> repository.save(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> repository.save(new User(null, "User", "mail@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new User(null, "  ", "mail@yandex.ru", "password", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new User(null, "User", "  ", "password", Role.USER)), ConstraintViolationException.class);
+        validateRootCause(() -> repository.save(new User(null, "User", "mail@yandex.ru", "  ", Role.USER)), ConstraintViolationException.class);
     }
 
     @Test
