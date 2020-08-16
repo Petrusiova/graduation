@@ -67,7 +67,7 @@ public abstract class AbstractUserController extends AbstractController {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         checkModificationAllowed(id);
-        Assert.notNull(user, "user must not be null");
+        Assert.notNull(user, "user must not be null"); // TODO: 16.08.2020 Necessary?
         prepareAndSave(user);
     }
 

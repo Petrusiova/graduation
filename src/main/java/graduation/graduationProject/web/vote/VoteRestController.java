@@ -34,7 +34,7 @@ public class VoteRestController {
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id) {
         log.info("get meal {}", id);
-        return checkNotFoundWithId(voteRepository.get(id, SecurityUtil.authUserId()), id);
+        return voteRepository.get(id, SecurityUtil.authUserId());
     }
 
     @DeleteMapping("/{id}")
@@ -42,7 +42,7 @@ public class VoteRestController {
     public void delete(@PathVariable int id) {
         log.info("delete meal {}", id);
         checkModificationAllowed();
-        checkNotFoundWithId(voteRepository.delete(id, SecurityUtil.authUserId()), id);
+        voteRepository.delete(id, SecurityUtil.authUserId());
     }
 
     @GetMapping
@@ -54,12 +54,11 @@ public class VoteRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest) {
-//        Assert.notNull(vote, "meal must not be null");  TODO: necessary?
         int userId = SecurityUtil.authUserId();
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, userId);
         checkModificationAllowed();
-        checkNotFoundWithId(voteRepository.save(vote, userId, id_rest), vote.getId());
+        voteRepository.save(vote, userId, id_rest);
     }
 
     private void checkModificationAllowed(){

@@ -1,12 +1,10 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.View;
-import graduation.graduationProject.model.AbstractBaseEntity;
 import graduation.graduationProject.model.Restaurant;
 import graduation.graduationProject.repository.RestaurantRepository;
 import graduation.graduationProject.to.RestaurantTo;
 import graduation.graduationProject.util.RestsUtil;
-import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import graduation.graduationProject.web.AbstractController;
 import graduation.graduationProject.web.SecurityUtil;
 import org.slf4j.Logger;
