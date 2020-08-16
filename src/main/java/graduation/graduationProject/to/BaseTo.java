@@ -1,6 +1,8 @@
 package graduation.graduationProject.to;
 
-public abstract class BaseTo {
+import graduation.graduationProject.HasId;
+
+public abstract class BaseTo implements HasId {
     protected Integer id;
 
     public BaseTo() {

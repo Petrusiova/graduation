@@ -1,10 +1,6 @@
 package graduation.graduationProject.util;
 
-import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.model.Role;
-import graduation.graduationProject.model.User;
-import graduation.graduationProject.to.MealTo;
 import graduation.graduationProject.to.RestaurantTo;
 
 import java.util.Collection;

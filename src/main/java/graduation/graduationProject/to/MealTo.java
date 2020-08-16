@@ -2,7 +2,6 @@ package graduation.graduationProject.to;
 
 import java.beans.ConstructorProperties;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class MealTo extends BaseTo {
