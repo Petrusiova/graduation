@@ -9,7 +9,6 @@ public class MealTo extends BaseTo {
     private final LocalDate date;
     private final String description;
     private final Integer price;
-//    private final String restaurantName; // TODO: 15.08.2020 necessary???
 
     @ConstructorProperties({"id", "date", "description", "price"})
     public MealTo(Integer id, LocalDate date, String description, Integer price) {

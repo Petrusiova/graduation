@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class UserRepository {
 
     @CacheEvict(value = "users", allEntries = true)
     public User save(User user) {
+        Assert.notNull(user, "user must not be null");
         return crudUserRepository.save(user);
     }
 

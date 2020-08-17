@@ -1,9 +1,12 @@
 package graduation.graduationProject;
 
+import org.springframework.test.web.servlet.ResultMatcher;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import static graduation.graduationProject.TestUtil.readListFromJsonMvcResult;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMatcher<T> {
@@ -50,15 +53,15 @@ public class TestMatcher<T> {
         }
     }
 
-//    public ResultMatcher contentJson(T expected) {
-//        return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, clazz), expected);
-//    }
-//
-//    public ResultMatcher contentJson(T... expected) {
-//        return contentJson(List.of(expected));
-//    }
-//
-//    public ResultMatcher contentJson(Iterable<T> expected) {
-//        return result -> assertMatch(readListFromJsonMvcResult(result, clazz), expected);
-//    }
+    public ResultMatcher contentJson(T expected) {
+        return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, clazz), expected);
+    }
+
+    public ResultMatcher contentJson(T... expected) {
+        return contentJson(List.of(expected));
+    }
+
+    public ResultMatcher contentJson(Iterable<T> expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, clazz), expected);
+    }
 }

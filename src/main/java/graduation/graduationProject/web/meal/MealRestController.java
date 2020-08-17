@@ -27,7 +27,7 @@ import static graduation.graduationProject.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController extends AbstractController {
-    static final String REST_URL = "/rest/profile/meals";
+    public static final String REST_URL = "/rest/profile/meals";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -44,7 +44,7 @@ public class MealRestController extends AbstractController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete meal {}", id);
-        checkModificationAllowed(SecurityUtil.authUserId());
+//        checkModificationAllowed(SecurityUtil.authUserId());
         mealRepository.delete(id);
     }
 
@@ -54,19 +54,19 @@ public class MealRestController extends AbstractController {
         return MealsUtil.getTos(mealRepository.getAll());
     }
 
-    @GetMapping("/by")
+    @GetMapping("/byDate")
     public List<MealTo> getAllByDate(@RequestParam LocalDate date) {
         log.info("getAll by date {}", date);
         return MealsUtil.getTos(mealRepository.getAllByDate(date));
     }
 
-    @GetMapping("/by")
+    @GetMapping("/byRestaurant")
     public List<MealTo> getAllByRestaurant(@RequestParam int id_rest) {
         log.info("getAll by restaurant {}", id_rest);
         return MealsUtil.getTos(mealRepository.getAllByRestaurant(id_rest));
     }
 
-    @GetMapping("/by")
+    @GetMapping("/byRestaurantAndDate")
     public List<MealTo> getAllByRestaurantAndDate(@RequestParam int id_rest, @RequestParam LocalDate date) {
         log.info("getAll by restaurant {} and date {}", id_rest, date);
         return MealsUtil.getTos(mealRepository.getAllByRestaurantAndDate(id_rest, date));
@@ -77,7 +77,7 @@ public class MealRestController extends AbstractController {
     public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
         assureIdConsistent(meal, id);
         log.info("update {} for restaurant {}", meal, id_rest);
-        checkModificationAllowed(SecurityUtil.authUserId());
+//        checkModificationAllowed(SecurityUtil.authUserId());
         mealRepository.save(meal, id_rest);
     }
 
@@ -85,7 +85,7 @@ public class MealRestController extends AbstractController {
     public ResponseEntity<Meal> createWithLocation(@Validated(View.Web.class) @RequestBody Meal meal, @RequestParam int id_rest) {
         checkNew(meal);
         log.info("create {} for restaurant {}", meal, id_rest);
-        checkModificationAllowed(SecurityUtil.authUserId());
+//        checkModificationAllowed(SecurityUtil.authUserId());
         Meal created = mealRepository.save(meal, id_rest);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

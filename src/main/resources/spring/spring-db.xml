@@ -14,7 +14,7 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
-        <jdbc:script location="initDB_hsql.sql"/>
+        <jdbc:script location="classpath:initDB_hsql.sql"/>
         <jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>
     </jdbc:initialize-database>
 

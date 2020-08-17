@@ -89,6 +89,11 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
         return enabled;
     }
 
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -122,10 +127,5 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
-    }
-
-    @Override
-    public String getEmail() {
-        return null;
     }
 }

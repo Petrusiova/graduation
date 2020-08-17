@@ -1,10 +1,13 @@
 package graduation.graduationProject.web.user;
 
+import graduation.graduationProject.AuthorizedUser;
 import graduation.graduationProject.View;
 import graduation.graduationProject.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AbstractUserController {
 
-    static final String REST_URL = "/rest/admin/users";
+    public static final String REST_URL = "/rest/admin/users";
 
     @GetMapping
     public List<User> getAll() {
@@ -57,10 +60,10 @@ public class AdminRestController extends AbstractUserController {
         return super.getByMail(email);
     }
 
-    @Override
-    @PatchMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        super.enable(id, enabled);
-    }
+//    @Override
+//    @PatchMapping("/{id}")
+//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+//    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
+//        super.enable(id, enabled);
+//    }
 }
