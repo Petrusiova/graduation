@@ -83,7 +83,7 @@ public class VoteRepoTest extends AbstractRepoTest {
     @Test
     public void getAll() throws Exception {
         List<Vote> all = repository.getAll(USER_ID);
-        VOTE_MATCHER.assertMatch(all, VOTE_1, VOTE_3);
+        VOTE_MATCHER.assertMatch(all, VOTE_1, VOTE_2);
     }
 
     @Test

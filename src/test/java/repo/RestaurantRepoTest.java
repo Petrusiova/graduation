@@ -99,7 +99,7 @@ public class RestaurantRepoTest extends AbstractRepoTest {
     void getWithVotes() throws Exception {
         Restaurant r = repository.getWithVotes(ASTORIA_ID);
         REST_MATCHER.assertMatch(r, ASTORIA);
-        VoteTestData.VOTE_MATCHER.assertMatch(r.getVotes(), VoteTestData.VOTE_1, VoteTestData.VOTE_3);
+        VoteTestData.VOTE_MATCHER.assertMatch(r.getVotes(), VoteTestData.VOTE_1, VoteTestData.VOTE_2);
     }
 
     @Test

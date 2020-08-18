@@ -88,7 +88,7 @@ public class UserRepoTest extends AbstractRepoTest {
     void getWithVotes() throws Exception {
         User user = repository.getWithVotes(USER_ID);
         USER_MATCHER.assertMatch(user, USER);
-        VoteTestData.VOTE_MATCHER.assertMatch(user.getVotes(), VoteTestData.VOTE_1, VoteTestData.VOTE_3);
+        VoteTestData.VOTE_MATCHER.assertMatch(user.getVotes(), VoteTestData.VOTE_1, VoteTestData.VOTE_2);
     }
 
     @Test

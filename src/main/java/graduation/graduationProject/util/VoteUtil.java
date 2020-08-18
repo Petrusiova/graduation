@@ -12,8 +12,8 @@ public class VoteUtil {
     private VoteUtil() {
     }
 
-    public static List<VoteTo> getTos(Collection<Vote> meals) {
-        return meals.stream().map(VoteUtil::createTo).collect(Collectors.toList());
+    public static List<VoteTo> getTos(Collection<Vote> votes) {
+        return votes.stream().map(VoteUtil::createTo).collect(Collectors.toList());
     }
 
     public static VoteTo createTo(Vote vote) {
