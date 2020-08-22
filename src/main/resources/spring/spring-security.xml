@@ -32,7 +32,7 @@
     </http>
 
     <authentication-manager>
-        <authentication-provider user-service-ref="adminRestController">
+        <authentication-provider user-service-ref="userRepository">
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>

@@ -78,6 +78,8 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
         REST_MATCHER.assertMatch(repository.get(newId), newRestaurant);
     }
 
+
+
     @Test
     void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))

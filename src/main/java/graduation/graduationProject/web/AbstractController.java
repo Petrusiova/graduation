@@ -5,8 +5,8 @@ import graduation.graduationProject.util.exception.ModificationRestrictionExcept
 
 public class AbstractController {
     protected void checkModificationAllowed(int id) {
-        if (id < AbstractBaseEntity.START_SEQ + 2) {
-            throw new ModificationRestrictionException();
-        }
+//        if (id < AbstractBaseEntity.START_SEQ + 2) {
+//            throw new ModificationRestrictionException();
+//        }
     }
 }
