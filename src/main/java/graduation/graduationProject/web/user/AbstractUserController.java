@@ -1,15 +1,15 @@
 package graduation.graduationProject.web.user;
 
-import graduation.graduationProject.model.AbstractBaseEntity;
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
-import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import graduation.graduationProject.web.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ public abstract class AbstractUserController extends AbstractController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    private UniqueMailValidator emailValidator;
-//
-//    @InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.addValidators(emailValidator);
-//    }
+    @Autowired
+    private UniqueMailValidator emailValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(emailValidator);
+    }
 
     public List<User> getAll() {
         log.info("getAll");
@@ -47,7 +47,8 @@ public abstract class AbstractUserController extends AbstractController {
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
-        return userRepository.save(user);
+        Assert.notNull(user, "user must not be null");
+        return prepareAndSave(user);
     }
 
     public void delete(int id) {

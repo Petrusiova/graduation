@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(locations = {
         "classpath:spring/spring-app.xml",
+        "classpath:spring/spring-mvc.xml",
         "classpath:spring/spring-db.xml"
 })
 @Sql(scripts = "classpath:populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))

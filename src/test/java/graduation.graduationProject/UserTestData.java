@@ -25,7 +25,7 @@ public class UserTestData {
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
 
     public static User getNew() {
-        return new User(null, "New", "new@gmail.com", "newPass", false, new Date(), Collections.singleton(Role.USER));
+        return new User(null, "New", "neww@gmail.com", "newPass", false, new Date(), Collections.singleton(Role.USER));
     }
 
     public static User getUpdated() {
