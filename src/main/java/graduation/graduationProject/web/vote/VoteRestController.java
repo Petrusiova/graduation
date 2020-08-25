@@ -1,7 +1,6 @@
 package graduation.graduationProject.web.vote;
 
 import graduation.graduationProject.View;
-import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.to.VoteTo;

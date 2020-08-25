@@ -5,8 +5,6 @@ import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.to.MealTo;
 import graduation.graduationProject.util.MealsUtil;
-import graduation.graduationProject.web.AbstractController;
-import graduation.graduationProject.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ import static graduation.graduationProject.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class MealRestController extends AbstractController {
+public class MealRestController {
     public static final String REST_URL = "/rest/profile/meals";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -44,7 +42,6 @@ public class MealRestController extends AbstractController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete meal {}", id);
-//        checkModificationAllowed(SecurityUtil.authUserId());
         mealRepository.delete(id);
     }
 
@@ -77,7 +74,6 @@ public class MealRestController extends AbstractController {
     public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
         assureIdConsistent(meal, id);
         log.info("update {} for restaurant {}", meal, id_rest);
-//        checkModificationAllowed(SecurityUtil.authUserId());
         mealRepository.save(meal, id_rest);
     }
 
@@ -85,7 +81,6 @@ public class MealRestController extends AbstractController {
     public ResponseEntity<Meal> createWithLocation(@Validated(View.Web.class) @RequestBody Meal meal, @RequestParam int id_rest) {
         checkNew(meal);
         log.info("create {} for restaurant {}", meal, id_rest);
-//        checkModificationAllowed(SecurityUtil.authUserId());
         Meal created = mealRepository.save(meal, id_rest);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
