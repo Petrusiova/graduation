@@ -57,15 +57,8 @@ abstract public class AbstractControllerTest {
         return mockMvc.perform(builder);
     }
 
-    private String getMessage(String code) {
-        return messageSourceAccessor.getMessage(code);
-    }
-
     public ResultMatcher errorType(ErrorType type) {
         return jsonPath("$.type").value(type.name());
     }
 
-    public ResultMatcher detailMessage(String code) {
-        return jsonPath("$.details").value(getMessage(code));
-    }
 }

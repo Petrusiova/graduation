@@ -2,6 +2,8 @@ package graduation.graduationProject.web.user;
 
 import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
+import graduation.graduationProject.to.UserTo;
+import graduation.graduationProject.util.UserUtil;
 import graduation.graduationProject.web.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,11 @@ public abstract class AbstractUserController extends AbstractController {
         return userRepository.get(id);
     }
 
+    public User create(UserTo userTo) {
+        log.info("create from to {}", userTo);
+        return create(UserUtil.createNewFromTo(userTo));
+    }
+
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
@@ -63,6 +70,15 @@ public abstract class AbstractUserController extends AbstractController {
         checkModificationAllowed(id);
         Assert.notNull(user, "user must not be null");
         prepareAndSave(user);
+    }
+
+    public void update(UserTo userTo, int id) {
+        log.info("update {} with id={}", userTo, id);
+        assureIdConsistent(userTo, id);
+        checkModificationAllowed(id);
+        Assert.notNull(userTo, "user must not be null");
+        User user = get(userTo.id());
+        prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
 
     public User getByMail(String email) {

@@ -10,8 +10,9 @@ INSERT INTO users (name, email, password) VALUES
   ('Admin', 'admin@gmail.com', '{noop}admin');
 
 INSERT INTO user_roles (role, user_id) VALUES
-  ('USER', 100000),
-  ('ADMIN', 100001);
+('USER', 100000),
+('ADMIN', 100001),
+('USER', 100001);
 
 INSERT INTO RESTAURANTS (name) VALUES
 ('ASTORIA'),

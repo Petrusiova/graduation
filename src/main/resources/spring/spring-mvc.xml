@@ -16,11 +16,14 @@
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <bean class="graduation.graduationProject.web.json.JacksonObjectMapper"/>
+                <property name="objectMapper" ref="objectMapper">
+<!--                    <bean class="graduation.graduationProject.web.json.JacksonObjectMapper"/>-->
                 </property>
             </bean>
         </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver "/>
+        </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
     <context:component-scan base-package="graduation.**.web"/>
