@@ -16,8 +16,6 @@ import java.util.Arrays;
 
 import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
-import static graduation.graduationProject.UserTestData.USER;
-import static graduation.graduationProject.UserTestData.USER_MATCHER;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

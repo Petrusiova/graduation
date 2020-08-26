@@ -8,6 +8,7 @@ import graduation.graduationProject.util.MealsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ import static graduation.graduationProject.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController {
-    public static final String REST_URL = "/rest/profile/meals";
+    public static final String REST_URL = "/rest/meals";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -38,7 +39,7 @@ public class MealRestController {
         return mealRepository.get(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete meal {}", id);
@@ -52,7 +53,7 @@ public class MealRestController {
     }
 
     @GetMapping("/byDate")
-    public List<MealTo> getAllByDate(@RequestParam LocalDate date) {
+    public List<MealTo> getAllByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.info("getAll by date {}", date);
         return MealsUtil.getTos(mealRepository.getAllByDate(date));
     }
@@ -69,7 +70,7 @@ public class MealRestController {
         return MealsUtil.getTos(mealRepository.getAllByRestaurantAndDate(id_rest, date));
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
         assureIdConsistent(meal, id);
@@ -77,7 +78,7 @@ public class MealRestController {
         mealRepository.save(meal, id_rest);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> createWithLocation(@Validated(View.Web.class) @RequestBody Meal meal, @RequestParam int id_rest) {
         checkNew(meal);
         log.info("create {} for restaurant {}", meal, id_rest);

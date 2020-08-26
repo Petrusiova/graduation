@@ -13,11 +13,10 @@
 
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="objectMapper">
-<!--                    <bean class="graduation.graduationProject.web.json.JacksonObjectMapper"/>-->
                 </property>
             </bean>
         </mvc:message-converters>
@@ -25,6 +24,14 @@
             <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver "/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
+
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
+        <property name="formatters">
+            <set>
+                <bean class="graduation.graduationProject.web.LocalDateFormatter"/>
+            </set>
+        </property>
+    </bean>
 
     <context:component-scan base-package="graduation.**.web"/>
 

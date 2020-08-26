@@ -27,7 +27,7 @@ public class MealTestData {
 
 
     public static Meal getNew() {
-        return new Meal(LocalDate.now(), "potato", 500);
+        return new Meal(null, LocalDate.now(), "potato", 500);
     }
 
     public static Meal getUpdated() {

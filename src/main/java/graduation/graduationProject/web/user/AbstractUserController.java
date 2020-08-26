@@ -4,7 +4,6 @@ import graduation.graduationProject.model.User;
 import graduation.graduationProject.repository.UserRepository;
 import graduation.graduationProject.to.UserTo;
 import graduation.graduationProject.util.UserUtil;
-import graduation.graduationProject.web.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import static graduation.graduationProject.util.UserUtil.prepareToSave;
 import static graduation.graduationProject.util.ValidationUtil.assureIdConsistent;
 import static graduation.graduationProject.util.ValidationUtil.checkNew;
 
-public abstract class AbstractUserController extends AbstractController {
+public abstract class AbstractUserController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -60,14 +59,12 @@ public abstract class AbstractUserController extends AbstractController {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        checkModificationAllowed(id);
         userRepository.delete(id);
     }
 
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
-        checkModificationAllowed(id);
         Assert.notNull(user, "user must not be null");
         prepareAndSave(user);
     }
@@ -75,7 +72,6 @@ public abstract class AbstractUserController extends AbstractController {
     public void update(UserTo userTo, int id) {
         log.info("update {} with id={}", userTo, id);
         assureIdConsistent(userTo, id);
-        checkModificationAllowed(id);
         Assert.notNull(userTo, "user must not be null");
         User user = get(userTo.id());
         prepareAndSave(UserUtil.updateFromTo(user, userTo));
@@ -88,7 +84,6 @@ public abstract class AbstractUserController extends AbstractController {
 
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
-        checkModificationAllowed(id);
         userRepository.enable(id, enabled);
     }
 
