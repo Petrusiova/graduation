@@ -33,16 +33,12 @@ import static graduation.graduationProject.util.exception.ErrorType.*;
 public class ExceptionInfoHandler {
     private static final Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
-    public static final String EXCEPTION_DUPLICATE_EMAIL = "duplicate Email";
+    public static final String EXCEPTION_DUPLICATE_EMAIL = "duplicate email";
+    public static final String EXCEPTION_DUPLICATE_NAME = "duplicate name";
 
     private static final Map<String, String> CONSTRAINS_I18N_MAP = Map.of(
-            "users_unique_email_idx", EXCEPTION_DUPLICATE_EMAIL);
-
-    private final MessageSourceAccessor messageSourceAccessor;
-
-    public ExceptionInfoHandler(MessageSourceAccessor messageSourceAccessor) {
-        this.messageSourceAccessor = messageSourceAccessor;
-    }
+            "users_unique_email_idx", EXCEPTION_DUPLICATE_EMAIL,
+            "restaurants_idx", EXCEPTION_DUPLICATE_NAME);
 
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ErrorInfo> applicationError(HttpServletRequest req, ApplicationException appEx) {
@@ -59,7 +55,7 @@ public class ExceptionInfoHandler {
             String lowerCaseMsg = rootMsg.toLowerCase();
             for (Map.Entry<String, String> entry : CONSTRAINS_I18N_MAP.entrySet()) {
                 if (lowerCaseMsg.contains(entry.getKey())) {
-                    return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, EXCEPTION_DUPLICATE_EMAIL);
+                    return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, entry.getValue());
                 }
             }
         }

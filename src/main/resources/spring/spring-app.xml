@@ -5,7 +5,6 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="graduation.graduationProject.repository"/>
-    <context:component-scan base-package="graduation.**.web"/>
 
     <import resource="spring-cache.xml"/>
     <import resource="spring-security.xml"/>
