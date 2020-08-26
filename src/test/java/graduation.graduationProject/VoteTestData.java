@@ -25,7 +25,7 @@ public class VoteTestData {
         VOTE_3.setRestaurant(VICTORIA);
     }
 
-    public static final List<Vote> ALL_RESTS = List.of(VOTE_1, VOTE_2);
+    public static final List<Vote> ALL_USER_RESTS = List.of(VOTE_1, VOTE_2);
 
     public static final int VOTE_1_ID = START_SEQ + 9;
 
