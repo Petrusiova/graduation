@@ -1,17 +1,18 @@
 package graduation.graduationProject.web.vote;
 
+import graduation.graduationProject.AuthorizedUser;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.to.VoteTo;
 import graduation.graduationProject.util.VoteUtil;
 import graduation.graduationProject.util.exception.ModificationRestrictionException;
-import graduation.graduationProject.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,29 +36,30 @@ public class VoteRestController {
     private VoteRepository voteRepository;
 
     @GetMapping("/{id}")
-    public Vote get(@PathVariable int id) {
+    public Vote get(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("get meal {}", id);
-        return voteRepository.get(id, SecurityUtil.safeGet().getId());
+        return voteRepository.get(id, authUser.getId());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("delete meal {}", id);
         checkModificationAllowed();
-        voteRepository.delete(id, SecurityUtil.safeGet().getId());
+        voteRepository.delete(id, authUser.getId());
     }
 
     @GetMapping
-    public List<VoteTo> getAll() {
+    public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("getAll");
-        return VoteUtil.getTos(voteRepository.getAll(SecurityUtil.safeGet().getId()));
+        return VoteUtil.getTos(voteRepository.getAll(authUser.getId()));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest) {
-        int userId = SecurityUtil.safeGet().getId();
+    public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest,
+                       @AuthenticationPrincipal AuthorizedUser authUser) {
+        int userId = authUser.getId();
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, userId);
         checkModificationAllowed();
@@ -65,9 +67,10 @@ public class VoteRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int id_rest) {
+    public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int id_rest,
+                                                   @AuthenticationPrincipal AuthorizedUser authUser) {
         checkNew(vote);
-        int userId = SecurityUtil.safeGet().getId();
+        int userId = authUser.getId();
         log.info("create {} for restaurant {} and user {}", vote, id_rest, userId);
         checkModificationAllowed();
         Vote created = voteRepository.save(vote, userId, id_rest);
