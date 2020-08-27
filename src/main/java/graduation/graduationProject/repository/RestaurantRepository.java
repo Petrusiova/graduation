@@ -51,6 +51,10 @@ public class RestaurantRepository {
         return checkNotFoundWithId(crudRestaurantRepository.getWithVotes(id), id);
     }
 
+    public List<Restaurant> getAllWithTodayMeals(){
+        return crudRestaurantRepository.getAllWithTodayMeals();
+    }
+
     @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {

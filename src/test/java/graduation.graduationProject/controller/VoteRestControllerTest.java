@@ -123,17 +123,6 @@ public class VoteRestControllerTest extends AbstractControllerTest {
                 .andExpect(VOTE_TO_MATCHER.contentJson(VoteUtil.getTos(ALL_USER_RESTS)));
     }
 
-    @Test
-    void createInvalid() throws Exception {
-        Vote invalid = new Vote((LocalDate) null);
-        perform(MockMvcRequestBuilders.post(REST_URL + "?id_rest=" + ASTORIA_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeAdditionProps(invalid, "restaurant", ASTORIA))
-                .with(userHttpBasic(USER)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR));
-    }
 
     @Test
     void updateInvalid() throws Exception {

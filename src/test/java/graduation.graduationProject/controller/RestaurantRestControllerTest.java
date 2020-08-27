@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
@@ -125,6 +126,16 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(REST_TO_MATCHER.contentJson(getTos(Arrays.asList(ASTORIA, TIFFANY, VICTORIA))));
+    }
+
+    @Test
+    void getAllToday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "today")
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(REST_TO_MATCHER.contentJson(getTos(Collections.emptyList())));
     }
 
     @Test
