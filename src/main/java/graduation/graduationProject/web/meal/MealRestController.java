@@ -1,6 +1,5 @@
 package graduation.graduationProject.web.meal;
 
-import graduation.graduationProject.View;
 import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.to.MealTo;
@@ -72,14 +71,14 @@ public class MealRestController {
 
     @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated(View.Web.class) @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
+    public void update(@Validated @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
         assureIdConsistent(meal, id);
         log.info("update {} for restaurant {}", meal, id_rest);
         mealRepository.save(meal, id_rest);
     }
 
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@Validated(View.Web.class) @RequestBody Meal meal, @RequestParam int id_rest) {
+    public ResponseEntity<Meal> createWithLocation(@Validated @RequestBody Meal meal, @RequestParam int id_rest) {
         checkNew(meal);
         log.info("create {} for restaurant {}", meal, id_rest);
         Meal created = mealRepository.save(meal, id_rest);

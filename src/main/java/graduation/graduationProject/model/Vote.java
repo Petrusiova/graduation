@@ -26,8 +26,8 @@ public class Vote extends AbstractBaseEntity{
     @NotNull
     private LocalDate date;
 
-    // TODO: 06.04.2020 try to make it private
     public Vote() {
+        this.date = LocalDate.now();
     }
 
     public Vote(Vote v) {

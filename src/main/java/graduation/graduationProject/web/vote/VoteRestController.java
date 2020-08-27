@@ -1,6 +1,5 @@
 package graduation.graduationProject.web.vote;
 
-import graduation.graduationProject.View;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.to.VoteTo;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class VoteRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest) {
+    public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest) {
         int userId = SecurityUtil.authUserId();
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, userId);
@@ -65,7 +65,7 @@ public class VoteRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@Validated(View.Web.class) @RequestBody Vote vote, @RequestParam int id_rest) {
+    public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int id_rest) {
         checkNew(vote);
         int userId = SecurityUtil.authUserId();
         log.info("create {} for restaurant {} and user {}", vote, id_rest, userId);

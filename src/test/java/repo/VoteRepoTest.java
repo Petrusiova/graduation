@@ -31,7 +31,7 @@ public class VoteRepoTest extends AbstractRepoTest {
 
     @Test
     public void create() throws Exception {
-        Vote newVote = getNew();
+        Vote newVote = new Vote();
         Vote created = repository.save(newVote, USER_ID, ASTORIA_ID);
 
         Integer newId = created.getId();

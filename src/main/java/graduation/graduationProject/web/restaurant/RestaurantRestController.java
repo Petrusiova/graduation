@@ -1,6 +1,5 @@
 package graduation.graduationProject.web.restaurant;
 
-import graduation.graduationProject.View;
 import graduation.graduationProject.model.Restaurant;
 import graduation.graduationProject.repository.RestaurantRepository;
 import graduation.graduationProject.to.RestaurantTo;
@@ -67,14 +66,14 @@ public class RestaurantRestController {
 
     @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated(View.Web.class) @RequestBody Restaurant restaurant, @PathVariable int id) {
+    public void update(@Validated @RequestBody Restaurant restaurant, @PathVariable int id) {
         assureIdConsistent(restaurant, id);
         log.info("update restaurant {} with id {}", restaurant, id);
         restaurantRepository.save(restaurant);
     }
 
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@Validated(View.Web.class) @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Validated @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         log.info("create restaurant {}", restaurant);
         Restaurant created = restaurantRepository.save(restaurant);

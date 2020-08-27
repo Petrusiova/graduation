@@ -29,13 +29,6 @@ public class VoteTestData {
 
     public static final int VOTE_1_ID = START_SEQ + 9;
 
-    public static Vote getNew() {
-        Vote vote = new Vote(LocalDate.now());
-        vote.setUser(USER);
-        vote.setRestaurant(TIFFANY);
-        return vote;
-    }
-
     public static Vote getUpdated() {
         Vote updated = new Vote(VOTE_1);
         updated.setRestaurant(TIFFANY);
