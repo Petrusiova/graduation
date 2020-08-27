@@ -26,7 +26,7 @@ public class RestaurantTestData {
 
     public static Restaurant getUpdated() {
         Restaurant updated = new Restaurant(ASTORIA);
-        updated.setName("updatedRestrnt");
+        updated.setName("UPDATEDRESTRNT");
         return updated;
     }
 }

@@ -26,6 +26,8 @@ public class RestaurantRepository {
 
     @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant save(Restaurant restaurant) {
+        String name = restaurant.getName().toUpperCase();
+        restaurant.setName(name);
         return crudRestaurantRepository.save(restaurant);
     }
 

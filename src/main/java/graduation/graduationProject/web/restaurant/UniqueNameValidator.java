@@ -23,13 +23,13 @@ public class UniqueNameValidator implements org.springframework.validation.Valid
     @Override
     public void validate(Object target, Errors errors) {
         Restaurant restaurant = ((Restaurant) target);
+        Restaurant dbRestaurant = null;
         try {
-            Restaurant dbRestaurant = repository.getByName(restaurant.getName());
-            if (dbRestaurant != null && !dbRestaurant.getId().equals(restaurant.getId())) {
-                errors.rejectValue("name", ExceptionInfoHandler.EXCEPTION_DUPLICATE_NAME);
-            }
-        } catch (NotFoundException e){
+            dbRestaurant = repository.getByName(restaurant.getName().toUpperCase());
+        } catch (NotFoundException e) { }
 
+        if (dbRestaurant != null && !dbRestaurant.getId().equals(restaurant.getId())) {
+            errors.rejectValue("name", ExceptionInfoHandler.EXCEPTION_DUPLICATE_NAME);
         }
     }
 }
