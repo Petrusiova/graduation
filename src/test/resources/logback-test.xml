@@ -21,9 +21,6 @@
         <appender-ref ref="result"/>
     </logger>
 
-    <!--<logger name="org.postgresql" level="debug"/>-->
-    <!--<logger name="org.springframework.jdbc" level="debug"/>-->
-
     <logger name="graduation" level="debug"/>
 
     <root level="INFO">
