@@ -37,7 +37,7 @@ public class VoteRestController {
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id) {
         log.info("get meal {}", id);
-        return voteRepository.get(id, SecurityUtil.authUserId());
+        return voteRepository.get(id, SecurityUtil.safeGet().getId());
     }
 
     @DeleteMapping("/{id}")
@@ -45,19 +45,19 @@ public class VoteRestController {
     public void delete(@PathVariable int id) {
         log.info("delete meal {}", id);
         checkModificationAllowed();
-        voteRepository.delete(id, SecurityUtil.authUserId());
+        voteRepository.delete(id, SecurityUtil.safeGet().getId());
     }
 
     @GetMapping
     public List<VoteTo> getAll() {
         log.info("getAll");
-        return VoteUtil.getTos(voteRepository.getAll(SecurityUtil.authUserId()));
+        return VoteUtil.getTos(voteRepository.getAll(SecurityUtil.safeGet().getId()));
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.safeGet().getId();
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, userId);
         checkModificationAllowed();
@@ -67,7 +67,7 @@ public class VoteRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int id_rest) {
         checkNew(vote);
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.safeGet().getId();
         log.info("create {} for restaurant {} and user {}", vote, id_rest, userId);
         checkModificationAllowed();
         Vote created = voteRepository.save(vote, userId, id_rest);

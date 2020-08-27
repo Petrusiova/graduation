@@ -2,7 +2,6 @@ package graduation.graduationProject.controller;
 
 import graduation.graduationProject.UserTestData;
 import graduation.graduationProject.VoteTestData;
-import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.util.VoteUtil;
@@ -18,11 +17,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static graduation.graduationProject.MealTestData.MEAL_1_ID;
 import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
 import static graduation.graduationProject.TestUtil.userHttpBasic;
-import static graduation.graduationProject.UserTestData.*;
+import static graduation.graduationProject.UserTestData.USER;
 import static graduation.graduationProject.VoteTestData.*;
 import static graduation.graduationProject.util.exception.ErrorType.VALIDATION_ERROR;
 import static org.junit.jupiter.api.Assertions.assertThrows;

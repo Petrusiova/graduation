@@ -29,13 +29,4 @@ public class SecurityUtil {
         requireNonNull(user, "No authorized user found");
         return user;
     }
-
-    public static int authUserId() {
-        return id;
-    }
-
-    public static void setAuthUserId(int id) {
-        SecurityUtil.id = id;
-    }
-
 }

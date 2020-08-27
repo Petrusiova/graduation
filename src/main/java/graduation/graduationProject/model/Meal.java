@@ -10,8 +10,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 @Entity
@@ -36,7 +34,6 @@ public class Meal extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_rest", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @NotNull(groups = View.Persist.class)
     @NotNull
     private Restaurant restaurant;
 
