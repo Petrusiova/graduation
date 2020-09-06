@@ -7,7 +7,6 @@ import graduation.graduationProject.util.MealsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,63 +24,51 @@ import static graduation.graduationProject.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController {
-    public static final String REST_URL = "/rest/meals";
+    public static final String REST_URL = "/rest";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MealRepository mealRepository;
 
-    @GetMapping("/{id}")
-    public Meal get(@PathVariable int id) {
-        log.info("get meal {}", id);
-        return mealRepository.get(id);
+    @GetMapping("/restaurants/{restaurant_id}/meals/{meal_id}")
+    public Meal get(@PathVariable int restaurant_id, @PathVariable int meal_id) {
+        log.info("get meal {}", meal_id);
+        return mealRepository.get(meal_id);
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/admin/restaurants/{restaurant_id}/meals/{meal_id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        log.info("delete meal {}", id);
-        mealRepository.delete(id);
+    public void delete(@PathVariable int restaurant_id, @PathVariable int meal_id) {
+        log.info("delete meal {}", meal_id);
+        mealRepository.delete(meal_id, restaurant_id);
     }
 
-    @GetMapping
-    public List<MealTo> getAll() {
+    @GetMapping("/meals/today")
+    public List<MealTo> getAllToday() {
         log.info("getAll");
-        return MealsUtil.getTos(mealRepository.getAll());
+        return MealsUtil.getTos(mealRepository.getAllToday());
     }
 
-    @GetMapping("/byDate")
-    public List<MealTo> getAllByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        log.info("getAll by date {}", date);
-        return MealsUtil.getTos(mealRepository.getAllByDate(date));
+    @GetMapping("/restaurants/{restaurant_id}/meals/today")
+    public List<MealTo> getMealByRestaurantToday(@PathVariable int restaurant_id) {
+        log.info("getAll by restaurant {} today", restaurant_id);
+        return MealsUtil.getTos(mealRepository.getMealByRestaurantToday(restaurant_id, LocalDate.now()));
     }
 
-    @GetMapping("/byRestaurant")
-    public List<MealTo> getAllByRestaurant(@RequestParam int id_rest) {
-        log.info("getAll by restaurant {}", id_rest);
-        return MealsUtil.getTos(mealRepository.getAllByRestaurant(id_rest));
-    }
-
-    @GetMapping("/byRestaurantAndDate")
-    public List<MealTo> getAllByRestaurantAndDate(@RequestParam int id_rest, @RequestParam LocalDate date) {
-        log.info("getAll by restaurant {} and date {}", id_rest, date);
-        return MealsUtil.getTos(mealRepository.getAllByRestaurantAndDate(id_rest, date));
-    }
-
-    @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/admin/restaurants/{restaurant_id}/meals/{meal_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated @RequestBody Meal meal, @PathVariable int id, @RequestParam int id_rest) {
-        assureIdConsistent(meal, id);
-        log.info("update {} for restaurant {}", meal, id_rest);
-        mealRepository.save(meal, id_rest);
+    public void update(@Validated @RequestBody Meal meal, @PathVariable int restaurant_id, @PathVariable int meal_id) {
+        assureIdConsistent(meal, meal_id);
+        log.info("update {} for restaurant {}", meal, restaurant_id);
+        mealRepository.save(meal, restaurant_id);
     }
 
-    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Meal> createWithLocation(@Validated @RequestBody Meal meal, @RequestParam int id_rest) {
+    @PostMapping(value = "/admin/restaurants/{restaurant_id}/meals", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Meal> createWithLocation(@Validated @RequestBody Meal meal, @PathVariable int restaurant_id) {
         checkNew(meal);
-        log.info("create {} for restaurant {}", meal, id_rest);
-        Meal created = mealRepository.save(meal, id_rest);
+        log.info("create {} for restaurant {}", meal, restaurant_id);
+        Meal created = mealRepository.save(meal, restaurant_id);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

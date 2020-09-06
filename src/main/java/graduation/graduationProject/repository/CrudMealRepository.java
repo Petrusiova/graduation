@@ -17,8 +17,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Meal m WHERE m.id=:id")
-    int delete(@Param("id") int id);
+    @Query("DELETE FROM Meal m WHERE m.id=:id and m.restaurant.id=:id_rest")
+    int delete(@Param("id") int id, @Param("id_rest") int id_rest);
 
     @Query("SELECT m FROM Meal m ORDER BY m.date DESC")
     List<Meal> getAll();
@@ -29,9 +29,9 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query("SELECT m FROM Meal m WHERE m.date=:date ORDER BY m.date DESC")
     List<Meal> getAllByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:id_rest AND m.date=:date ORDER BY m.date, m.restaurant.id DESC")
-    List<Meal> getByRestaurantAndDate(@Param("id_rest") int id_rest, @Param("date") LocalDate date);
+    @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.restaurant.id = :id_rest AND m.date=:date ORDER BY m.date, m.restaurant.id DESC")
+    List<Meal> getMealByRestaurantToday(@Param("id_rest") int id_rest, @Param("date") LocalDate date);
 
-    @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.id = ?1 and m.restaurant.id = ?2")
-    Meal getWithRestaurant(int id, int id_rest);
+    @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.date = ?1")
+    List<Meal> getAllToday(LocalDate date);
 }

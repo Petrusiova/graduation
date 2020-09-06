@@ -26,8 +26,8 @@ public class MealRepository {
         return crudMealRepository.save(Meal);
     }
 
-    public boolean delete(int id) {
-        checkNotFoundWithId(crudMealRepository.delete(id) != 0, id);
+    public boolean delete(int id, int id_rest) {
+        checkNotFoundWithId(crudMealRepository.delete(id, id_rest) != 0, id);
         return true;
     }
 
@@ -47,11 +47,11 @@ public class MealRepository {
         return crudMealRepository.getAllByRestaurant(id_rest);
     }
 
-    public List<Meal> getAllByRestaurantAndDate(int id_rest, LocalDate date) {
-        return crudMealRepository.getByRestaurantAndDate(id_rest, date);
+    public List<Meal> getMealByRestaurantToday(int id_rest, LocalDate date) {
+        return crudMealRepository.getMealByRestaurantToday(id_rest, date);
     }
 
-    public Meal getWithRestaurant(int id, int id_rest) {
-        return checkNotFoundWithId(crudMealRepository.getWithRestaurant(id, id_rest), id);
+    public List<Meal> getAllToday() {
+        return crudMealRepository.getAllToday(LocalDate.now());
     }
 }

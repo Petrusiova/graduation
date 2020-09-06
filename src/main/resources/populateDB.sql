@@ -23,7 +23,7 @@ INSERT INTO MEALS (id_rest, DESCRIPTION, PRICE, DATE) VALUES
 (100002, 'soup', 50, '2020-04-06'),
 (100003, 'porridge', 25, '2020-04-06'),
 (100003, 'juice', 10, '2020-04-06'),
-(100004, 'coffee', 20, '2020-04-05');
+(100004, 'coffee', 20, CURRENT_DATE);
 
 INSERT INTO VOTES (user_id, id_rest, DATE) VALUES
 (100000, 100002, '2020-04-06'),

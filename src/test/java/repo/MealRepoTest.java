@@ -1,6 +1,5 @@
 package repo;
 
-import graduation.graduationProject.RestaurantTestData;
 import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
@@ -15,6 +14,7 @@ import java.time.Month;
 import java.util.List;
 
 import static graduation.graduationProject.MealTestData.*;
+import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
 import static graduation.graduationProject.UserTestData.USER_ID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,7 +46,7 @@ public class MealRepoTest extends AbstractRepoTest {
 
     @Test
     public void delete() throws Exception {
-        Assertions.assertTrue(repository.delete(MEAL_1_ID));
+        Assertions.assertTrue(repository.delete(MEAL_1_ID, ASTORIA_ID));
         assertThrows(NotFoundException.class,
                 () -> repository.get(MEAL_1_ID));
     }
@@ -54,7 +54,7 @@ public class MealRepoTest extends AbstractRepoTest {
     @Test
     public void deletedNotFound() throws Exception {
         assertThrows(NotFoundException.class,
-                () -> repository.delete(1));
+                () -> repository.delete(1, ASTORIA_ID));
     }
 
     @Test
@@ -108,23 +108,23 @@ public class MealRepoTest extends AbstractRepoTest {
 
     @Test
     public void getAllByRestaurantAndDate() throws Exception {
-        List<Meal> all = repository.getAllByRestaurantAndDate(
+        List<Meal> all = repository.getMealByRestaurantToday(
                 MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
         MEAL_MATCHER.assertMatch(all, MEAL_1);
     }
 
-    @Test
-    void getWithVotes() throws Exception {
-        Meal meal = repository.getWithRestaurant(MEAL_1_ID, RestaurantTestData.ASTORIA_ID);
-        MEAL_MATCHER.assertMatch(meal, MEAL_1);
-        RestaurantTestData.REST_MATCHER.assertMatch(meal.getRestaurant(), RestaurantTestData.ASTORIA);
-    }
+//    @Test
+//    void getWithVotes() throws Exception {
+//        Meal meal = repository.getAllToday(MEAL_1_ID, ASTORIA_ID);
+//        MEAL_MATCHER.assertMatch(meal, MEAL_1);
+//        RestaurantTestData.REST_MATCHER.assertMatch(meal.getRestaurant(), RestaurantTestData.ASTORIA);
+//    }
 
-    @Test
-    void getWithVotesNotFound() throws Exception {
-        Assertions.assertThrows(NotFoundException.class,
-                () -> repository.getWithRestaurant(MEAL_1_ID, 2));
-    }
+//    @Test
+//    void getWithVotesNotFound() throws Exception {
+//        Assertions.assertThrows(NotFoundException.class,
+//                () -> repository.getAllToday(MEAL_1_ID, 2));
+//    }
 
 
     @Test
