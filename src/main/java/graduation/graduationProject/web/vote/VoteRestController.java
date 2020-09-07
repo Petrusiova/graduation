@@ -57,23 +57,23 @@ public class VoteRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int id_rest,
+    public void update(@Validated @RequestBody Vote vote, @PathVariable int id, @RequestParam int restaurant_id,
                        @AuthenticationPrincipal AuthorizedUser authUser) {
         int userId = authUser.getId();
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, userId);
         checkModificationAllowed();
-        voteRepository.save(vote, userId, id_rest);
+        voteRepository.save(vote, userId, restaurant_id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int id_rest,
+    public ResponseEntity<Vote> createWithLocation(@Validated @RequestBody Vote vote, @RequestParam int restaurant_id,
                                                    @AuthenticationPrincipal AuthorizedUser authUser) {
         checkNew(vote);
         int userId = authUser.getId();
-        log.info("create {} for restaurant {} and user {}", vote, id_rest, userId);
+        log.info("create {} for restaurant {} and user {}", vote, restaurant_id, userId);
         checkModificationAllowed();
-        Vote created = voteRepository.save(vote, userId, id_rest);
+        Vote created = voteRepository.save(vote, userId, restaurant_id);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

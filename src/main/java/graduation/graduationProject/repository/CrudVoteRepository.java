@@ -22,7 +22,7 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     int delete(@Param("id") int id, @Param("user_id") int user_id);
 
     @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.id = ?1 and v.restaurant.id = ?2 and v.user.id = ?3")
-    Vote getWithRestaurant(int id, int id_rest, int userId);
+    Vote getWithRestaurant(int id, int restaurant_id, int userId);
 
     @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.id = ?1 and v.user.id = ?2")
     Vote getWithUser(int id, int userId);

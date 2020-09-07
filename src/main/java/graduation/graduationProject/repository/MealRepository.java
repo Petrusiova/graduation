@@ -21,13 +21,13 @@ public class MealRepository {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
-    public Meal save(Meal Meal, int id_rest) {
-        Meal.setRestaurant(crudRestaurantRepository.getOne(id_rest));
+    public Meal save(Meal Meal, int restaurant_id) {
+        Meal.setRestaurant(crudRestaurantRepository.getOne(restaurant_id));
         return crudMealRepository.save(Meal);
     }
 
-    public boolean delete(int id, int id_rest) {
-        checkNotFoundWithId(crudMealRepository.delete(id, id_rest) != 0, id);
+    public boolean delete(int id, int restaurant_id) {
+        checkNotFoundWithId(crudMealRepository.delete(id, restaurant_id) != 0, id);
         return true;
     }
 
@@ -43,12 +43,12 @@ public class MealRepository {
         return crudMealRepository.getAllByDate(date);
     }
 
-    public List<Meal> getAllByRestaurant(int id_rest) {
-        return crudMealRepository.getAllByRestaurant(id_rest);
+    public List<Meal> getAllByRestaurant(int restaurant_id) {
+        return crudMealRepository.getAllByRestaurant(restaurant_id);
     }
 
-    public List<Meal> getMealByRestaurantToday(int id_rest, LocalDate date) {
-        return crudMealRepository.getMealByRestaurantToday(id_rest, date);
+    public List<Meal> getMealByRestaurantToday(int restaurant_id, LocalDate date) {
+        return crudMealRepository.getMealByRestaurantToday(restaurant_id, date);
     }
 
     public List<Meal> getAllToday() {

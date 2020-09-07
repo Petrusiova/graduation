@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"description", "date", "id_rest"}, name = "meals_unique_restaurant_meal_date_idx")})
+@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"description", "date", "restaurant_id"}, name = "meals_unique_restaurant_meal_date_idx")})
 public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
@@ -32,7 +32,7 @@ public class Meal extends AbstractBaseEntity {
     private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rest", nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Restaurant restaurant;

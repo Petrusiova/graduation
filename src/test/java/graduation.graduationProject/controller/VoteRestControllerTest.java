@@ -80,7 +80,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Vote updated = VoteTestData.getUpdated();
 
-        ResultActions action = perform(MockMvcRequestBuilders.put(REST_URL + VOTE_1_ID + "?id_rest=" + ASTORIA_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.put(REST_URL + VOTE_1_ID + "?restaurant_id=" + ASTORIA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeAdditionProps(updated, "restaurant", ASTORIA))
                 .with(userHttpBasic(USER)));
@@ -97,7 +97,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
     void createWithLocation() throws Exception {
         Vote newVote = new Vote();
 
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?id_rest=" + ASTORIA_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + ASTORIA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeAdditionProps(newVote, "restaurant", ASTORIA))
                 .with(userHttpBasic(USER)));
@@ -127,7 +127,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
     @Test
     void updateInvalid() throws Exception {
         Vote invalid = new Vote((LocalDate) null);
-        perform(MockMvcRequestBuilders.put(REST_URL + VOTE_1_ID + "?id_rest=" + ASTORIA_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + VOTE_1_ID + "?restaurant_id=" + ASTORIA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
                 .with(userHttpBasic(USER)))
@@ -140,7 +140,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
     void createDuplicate() throws Exception {
         Vote newVote = new Vote();
 
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?id_rest=" + ASTORIA_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + ASTORIA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeAdditionProps(newVote, "restaurant", ASTORIA))
                 .with(userHttpBasic(USER)));
@@ -154,7 +154,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
             VOTE_MATCHER.assertMatch(repository.get(newId, UserTestData.USER_ID), newVote);
 
             newVote = new Vote();
-            action = perform(MockMvcRequestBuilders.post(REST_URL + "?id_rest=" + VICTORIA.getId())
+            action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + VICTORIA.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(JsonUtil.writeAdditionProps(newVote, "restaurant", ASTORIA))
                     .with(userHttpBasic(USER)));

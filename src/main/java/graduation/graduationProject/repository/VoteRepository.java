@@ -27,12 +27,12 @@ public class VoteRepository {
     }
 
     @Transactional
-    public Vote save(Vote vote, int userId, int id_rest) {
+    public Vote save(Vote vote, int userId, int restaurant_id) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
         }
         vote.setUser(crudUserRepository.getOne(userId));
-        vote.setRestaurant(crudRestaurantRepository.getOne(id_rest));
+        vote.setRestaurant(crudRestaurantRepository.getOne(restaurant_id));
         return crudVoteRepository.save(vote);
     }
 
@@ -51,8 +51,8 @@ public class VoteRepository {
         return true;
     }
 
-    public Vote getWithRestaurant(int id, int id_rest, int userId) {
-        return checkNotFoundWithId(crudVoteRepository.getWithRestaurant(id, id_rest, userId), id);
+    public Vote getWithRestaurant(int id, int restaurant_id, int userId) {
+        return checkNotFoundWithId(crudVoteRepository.getWithRestaurant(id, restaurant_id, userId), id);
     }
 
     public Vote getWithUser(int id, int userId) {

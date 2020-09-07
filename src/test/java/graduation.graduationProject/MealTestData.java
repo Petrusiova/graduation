@@ -9,7 +9,7 @@ import java.util.List;
 import static graduation.graduationProject.model.AbstractBaseEntity.START_SEQ;
 
 public class MealTestData {
-    public static TestMatcher<Meal> MEAL_MATCHER = TestMatcher.usingFieldsComparator(Meal.class, "restaurant", "id_rest");
+    public static TestMatcher<Meal> MEAL_MATCHER = TestMatcher.usingFieldsComparator(Meal.class, "restaurant", "restaurant_id");
     public static TestMatcher<MealTo> MEAL_TO_MATCHER = TestMatcher.usingEquals(MealTo.class);
 
     public static final Meal MEAL_1 = new Meal(START_SEQ + 5, LocalDate.of(2020, 4, 6), "soup", 50);
