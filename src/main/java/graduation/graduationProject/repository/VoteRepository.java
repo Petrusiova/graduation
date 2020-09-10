@@ -1,8 +1,8 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Vote;
+import graduation.graduationProject.util.exception.ApplicationException;
 import graduation.graduationProject.util.exception.NotFoundException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +27,11 @@ public class VoteRepository {
     }
 
     @Transactional
-    public Vote save(Vote vote, int userId, int restaurant_id) {
-        if (!vote.isNew() && get(vote.getId(), userId) == null) {
-            return null;
+    public Vote save(int userId, int restaurant_id) {
+        if (crudVoteRepository.getTodayVote(userId, LocalDate.now()) != null){
+            throw new ApplicationException("You cannot change your vote today");
         }
+        Vote vote = new Vote();
         vote.setUser(crudUserRepository.getOne(userId));
         vote.setRestaurant(crudRestaurantRepository.getOne(restaurant_id));
         return crudVoteRepository.save(vote);

@@ -28,10 +28,4 @@ public class VoteTestData {
     public static final List<Vote> ALL_USER_RESTS = List.of(VOTE_1, VOTE_2);
 
     public static final int VOTE_1_ID = START_SEQ + 9;
-
-    public static Vote getUpdated() {
-        Vote updated = new Vote(VOTE_1);
-        updated.setRestaurant(TIFFANY);
-        return updated;
-    }
 }
