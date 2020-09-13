@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static graduation.graduationProject.util.ValidationUtil.assureIdConsistent;
 import static graduation.graduationProject.util.ValidationUtil.checkNew;
@@ -70,13 +67,7 @@ public class RestaurantRestController {
     @GetMapping("/today")
     public List<RestaurantTo> getAllWithTodayMeals() {
         log.info("getAllWithTodayMeals");
-
-        List<Restaurant> result = restaurantRepository.getAllWithTodayMeals()
-                .stream()
-                .filter(restaurant -> restaurant.getMeals()
-                        .stream()
-                        .anyMatch(meal -> meal.getDate().equals(LocalDate.now()))).collect(Collectors.toList());
-        return RestsUtil.getTos(result);
+        return RestsUtil.getTos(restaurantRepository.getAllWithTodayMeals());
     }
 
     @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

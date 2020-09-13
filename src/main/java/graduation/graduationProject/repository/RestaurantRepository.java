@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static graduation.graduationProject.util.ValidationUtil.checkNotFound;
@@ -32,7 +33,7 @@ public class RestaurantRepository {
     }
 
     public Restaurant get(int id) {
-        return crudRestaurantRepository.findById(id).orElseThrow(() -> new NotFoundException("No restaurant with id = " + id));
+        return crudRestaurantRepository.findById(id).orElseThrow(() -> new NotFoundException("No restaurant with restaurantId = " + id));
     }
 
     public Restaurant getByName(String name) {
@@ -43,16 +44,8 @@ public class RestaurantRepository {
         return crudRestaurantRepository.findAll(SORT_NAME);
     }
 
-    public Restaurant getWithMeals(int id){
-        return checkNotFoundWithId(crudRestaurantRepository.getWithMeals(id), id);
-    }
-
-    public Restaurant getWithVotes(int id){
-        return checkNotFoundWithId(crudRestaurantRepository.getWithVotes(id), id);
-    }
-
     public List<Restaurant> getAllWithTodayMeals(){
-        return crudRestaurantRepository.getAllWithTodayMeals();
+        return crudRestaurantRepository.getAllWithTodayMeals(LocalDate.now());
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)

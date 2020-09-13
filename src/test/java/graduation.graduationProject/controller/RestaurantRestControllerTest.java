@@ -129,13 +129,13 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAllToday() throws Exception {
+    void getAllWithTodayMeals() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "today")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(REST_TO_MATCHER.contentJson(getTos(Collections.emptyList())));
+                .andExpect(REST_MATCHER.contentJson(Collections.singletonList(TIFFANY)));
     }
 
     @Test

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -30,11 +31,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithMeals(int id);
 
-    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getWithVotes(int id);
-
     @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r")
-    List<Restaurant> getAllWithTodayMeals();
+    @Query("SELECT r FROM Restaurant r WHERE r.id in (select m.restaurant.id from Meal m where m.date=?1)")
+    List<Restaurant> getAllWithTodayMeals(LocalDate date);
 }
