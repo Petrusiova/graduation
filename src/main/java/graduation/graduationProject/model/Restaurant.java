@@ -12,6 +12,13 @@ import java.util.List;
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "restaurants_idx")})
 public class Restaurant extends AbstractNamedEntity {
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("date DESC")
+    private List<Meal> meals;
+
     public Restaurant() {
     }
 
@@ -27,23 +34,8 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
-    private boolean enabled = true;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("date DESC")
-    private List<Meal> meals;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("date DESC")
-    private List<Vote> votes;
-
     public List<Meal> getMeals() {
         return meals;
-    }
-
-    public List<Vote> getVotes() {
-        return votes;
     }
 
     public boolean isEnabled() {

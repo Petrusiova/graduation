@@ -17,11 +17,7 @@ public class MealTestData {
     public static final Meal MEAL_3 = new Meal(START_SEQ + 7, LocalDate.of(2020, 4, 6), "juice", 10);
     public static final Meal MEAL_4 = new Meal(START_SEQ + 8, LocalDate.now(), "coffee", 20);
 
-    public static final List<Meal> MEALS = List.of(MEAL_1, MEAL_2, MEAL_3, MEAL_4);
-    public static final List<Meal> ALL_MEALS_EQL_DATE = List.of(MEAL_1, MEAL_2, MEAL_3);
-
     public static final int MEAL_1_ID = START_SEQ + 5;
-    public static final int MEAL_1_RESTAURANT_ID = START_SEQ + 2;
 
     public static Meal getNew() {
         return new Meal(null, LocalDate.now(), "potato", 500);

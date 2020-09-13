@@ -46,10 +46,6 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("date DESC")
-    private List<Vote> votes;
-
     public User() {
     }
 
@@ -82,10 +78,6 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
         return password;
     }
 
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -113,10 +105,6 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.time.LocalTime;
 import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
 import static graduation.graduationProject.TestUtil.userHttpBasic;
+import static graduation.graduationProject.UserTestData.ADMIN;
 import static graduation.graduationProject.UserTestData.USER;
 import static graduation.graduationProject.VoteTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,25 +35,28 @@ public class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOTE_1_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.get(REST_URL + "mineToday")
+                .with(userHttpBasic(USER)))
+                .andExpect(status().isOk());
+        Assertions.assertEquals(VOTE_4, readFromJson(action, Vote.class));
+    }
+
+    @Test
+    void getVotesCountForRestaurantToday() throws Exception {
+        ResultActions action = perform(MockMvcRequestBuilders.get(REST_URL + "todayByRestaurant/?restaurant_id=" + ASTORIA_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_1));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        Assertions.assertEquals(1, readFromJson(action, Integer.class));
     }
+
+
     @Test
     void getUnauth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VOTE_1_ID))
                 .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOTE_1_ID + "000")
-                .with(userHttpBasic(USER)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -61,7 +65,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER)));
         if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
             action.andExpect(status().isNoContent());
-            assertThrows(NotFoundException.class, () -> repository.get(VOTE_1_ID, UserTestData.USER_ID));
+            assertThrows(NotFoundException.class, () -> repository.get(UserTestData.USER_ID));
         } else {
             action.andExpect(status().isUnprocessableEntity());
         }
@@ -80,13 +84,13 @@ public class VoteRestControllerTest extends AbstractControllerTest {
 
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + ASTORIA_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER)));
+                .with(userHttpBasic(ADMIN)));
 
             Vote created = readFromJson(action, Vote.class);
             int newId = created.id();
             newVote.setId(newId);
             VOTE_MATCHER.assertMatch(created, newVote);
-            Assertions.assertEquals(repository.get(newId, UserTestData.USER_ID).getRestaurant(), ASTORIA);
+            Assertions.assertEquals(repository.get(UserTestData.USER_ID).getRestaurant(), ASTORIA);
     }
 
     @Test

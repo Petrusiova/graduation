@@ -5,7 +5,6 @@ import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.repository.VoteRepository;
 import graduation.graduationProject.to.VoteTo;
 import graduation.graduationProject.util.VoteUtil;
-import graduation.graduationProject.util.exception.ApplicationException;
 import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,16 +30,16 @@ public class VoteRestController {
     @Autowired
     private VoteRepository voteRepository;
 
-    @GetMapping("/{id}")
-    public Vote get(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser authUser) {
-        log.info("get meal {}", id);
-        return voteRepository.get(id, authUser.getId());
+    @GetMapping("/mineToday")
+    public Vote get(@AuthenticationPrincipal AuthorizedUser authUser) {
+        log.info("get today vote for user {}", authUser);
+        return voteRepository.get(authUser.getId());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser authUser) {
-        log.info("delete meal {}", id);
+        log.info("delete vote {}", id);
         checkModificationAllowed();
         voteRepository.delete(id, authUser.getId());
     }
@@ -49,6 +48,12 @@ public class VoteRestController {
     public List<VoteTo> getAll(@AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("getAll");
         return VoteUtil.getTos(voteRepository.getAll(authUser.getId()));
+    }
+
+    @GetMapping("/todayByRestaurant")
+    public int getVotesForRestaurantToday(@RequestParam int restaurant_id) {
+        log.info("get votes count for restaurant {} today", restaurant_id);
+        return voteRepository.getVotesCountForRestaurantToday(restaurant_id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

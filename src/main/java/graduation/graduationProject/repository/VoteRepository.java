@@ -2,7 +2,6 @@ package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.util.exception.ApplicationException;
-import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ public class VoteRepository {
 
     @Transactional
     public Vote save(int userId, int restaurant_id) {
-        if (crudVoteRepository.getTodayVote(userId, LocalDate.now()) != null){
+        if (get(userId) != null){
             throw new ApplicationException("You cannot change your vote today");
         }
         Vote vote = new Vote();
@@ -37,26 +36,20 @@ public class VoteRepository {
         return crudVoteRepository.save(vote);
     }
 
-    public Vote get(int id, int userId) {
-        return crudVoteRepository.findById(id)
-                .filter(vote -> vote.getUser().getId() == userId)
-                .orElseThrow(() -> new NotFoundException("No vote with id = " + id + " and user's id = " + userId));
+    public Vote get(int userId) {
+        return crudVoteRepository.getMyTodayVote(userId, LocalDate.now());
     }
 
     public List<Vote> getAll(int userId) {
         return crudVoteRepository.getAll(userId);
     }
 
+    public int getVotesCountForRestaurantToday(int restaurant_id) {
+        return crudVoteRepository.getVotesForRestaurantToday(restaurant_id, LocalDate.now()).size();
+    }
+
     public boolean delete(int id, int userId) {
         checkNotFoundWithId(crudVoteRepository.delete(id, userId) != 0, id);
         return true;
-    }
-
-    public Vote getWithRestaurant(int id, int restaurant_id, int userId) {
-        return checkNotFoundWithId(crudVoteRepository.getWithRestaurant(id, restaurant_id, userId), id);
-    }
-
-    public Vote getWithUser(int id, int userId) {
-        return checkNotFoundWithId(crudVoteRepository.getWithUser(id, userId), id);
     }
 }

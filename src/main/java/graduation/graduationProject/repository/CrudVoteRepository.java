@@ -17,17 +17,14 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Query("SELECT v FROM Vote v WHERE v.user.id =:user_id ORDER BY v.date DESC")
     List<Vote> getAll(@Param("user_id") int user_id);
 
+    @Query("SELECT v FROM Vote v WHERE v.restaurant.id =:restaurant_id AND v.date=:date")
+    List<Vote> getVotesForRestaurantToday(@Param("restaurant_id") int restaurant_id, @Param("date") LocalDate date);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:user_id")
     int delete(@Param("id") int id, @Param("user_id") int user_id);
 
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.id = ?1 and v.restaurant.id = ?2 and v.user.id = ?3")
-    Vote getWithRestaurant(int id, int restaurant_id, int userId);
-
-    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.id = ?1 and v.user.id = ?2")
-    Vote getWithUser(int id, int userId);
-
     @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id AND v.date=:date")
-    Vote getTodayVote(@Param("user_id") int user_id, @Param("date") LocalDate date);
+    Vote getMyTodayVote(@Param("user_id") int user_id, @Param("date") LocalDate date);
 }
