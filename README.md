@@ -27,7 +27,8 @@ After cloning this project you need to check dependencies and Maven lifecylce.
 
 How could you test it?
 
-Please run maven - test and ensure that tests built with success.
+Please run initDB_hsql.sql and populateDB.sql
+and after it run maven - test and ensure that tests built with success.
 If you have some problems - please write me an email: petrusiovaolga@gmail.com
 
 Gratitude to JavaOps team (https://javaops.ru) for internship in java developing and helping me during my way to java developer.

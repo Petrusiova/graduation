@@ -19,9 +19,9 @@ import java.time.LocalTime;
 import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
 import static graduation.graduationProject.TestUtil.userHttpBasic;
-import static graduation.graduationProject.UserTestData.ADMIN;
-import static graduation.graduationProject.UserTestData.USER;
+import static graduation.graduationProject.UserTestData.*;
 import static graduation.graduationProject.VoteTestData.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -31,7 +31,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteRestController.REST_URL + '/';
 
     @Autowired
-    private VoteService repository;
+    private VoteService service;
 
     @Test
     void get() throws Exception {
@@ -61,11 +61,11 @@ public class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        ResultActions action = perform(MockMvcRequestBuilders.delete(REST_URL + VOTE_1_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.delete(REST_URL + VOTE_4.getId())
                 .with(userHttpBasic(USER)));
         if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
             action.andExpect(status().isNoContent());
-            assertThrows(NotFoundException.class, () -> repository.get(UserTestData.USER_ID));
+            assertNull(service.get(UserTestData.USER_ID));
         } else {
             action.andExpect(status().isUnprocessableEntity());
         }
@@ -90,7 +90,7 @@ public class VoteRestControllerTest extends AbstractControllerTest {
             int newId = created.id();
             newVote.setId(newId);
             VOTE_MATCHER.assertMatch(created, newVote);
-            Assertions.assertEquals(repository.get(UserTestData.USER_ID).getRestaurant(), ASTORIA);
+            Assertions.assertEquals(service.get(UserTestData.USER_ID).getRestaurant(), ASTORIA);
     }
 
     @Test
@@ -105,15 +105,13 @@ public class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void createDuplicate() throws Exception {
-        perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + ASTORIA_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER)));
+        service.create(ADMIN_ID, ASTORIA_ID);
 
         perform(MockMvcRequestBuilders.post(REST_URL + "?restaurant_id=" + VICTORIA.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .with(userHttpBasic(USER)));
+                    .with(userHttpBasic(ADMIN)));
 
-        Assertions.assertEquals(1, repository.getAll(USER.getId()).stream()
+        Assertions.assertEquals(1, service.getAll(ADMIN.getId()).stream()
                         .filter(vote -> vote.getDate().equals(LocalDate.now())).count());
     }
 }

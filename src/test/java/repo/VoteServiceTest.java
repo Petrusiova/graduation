@@ -7,14 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintViolationException;
-
 import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
 import static graduation.graduationProject.UserTestData.ADMIN_ID;
 import static graduation.graduationProject.UserTestData.USER_ID;
 import static graduation.graduationProject.VoteTestData.VOTE_4;
 import static graduation.graduationProject.VoteTestData.VOTE_MATCHER;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class VoteServiceTest extends AbstractServiceTest {
@@ -59,10 +58,5 @@ public class VoteServiceTest extends AbstractServiceTest {
     public void getVotesCountForRestaurantToday() throws Exception {
         int count = service.getVotesCountForRestaurantToday(ASTORIA_ID);
         Assertions.assertEquals(1, count);
-    }
-
-    @Test
-    public void createWithException() throws Exception {
-        validateRootCause(() -> service.create(USER_ID, ASTORIA_ID), ConstraintViolationException.class);
     }
 }

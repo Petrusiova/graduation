@@ -27,4 +27,7 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
 
     @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id AND v.date=:date")
     Vote getMyTodayVote(@Param("user_id") int user_id, @Param("date") LocalDate date);
+
+    @Query("UPDATE Vote v SET v.restaurant.id =:restaurant_id WHERE v.user.id=:user_id AND v.date=:date")
+    Vote update(@Param("restaurant_id") int restaurant_id, @Param("user_id") int user_id, @Param("date") LocalDate date);
 }
