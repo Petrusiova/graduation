@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 import static graduation.graduationProject.util.ValidationUtil.assureIdConsistent;
@@ -34,7 +33,7 @@ public class MealRestController {
     @GetMapping("/restaurants/{restaurant_id}/meals/{meal_id}")
     public Meal get(@PathVariable int restaurant_id, @PathVariable int meal_id) {
         log.info("get meal {}", meal_id);
-        return mealRepository.get(meal_id);
+        return mealRepository.get(restaurant_id, meal_id);
     }
 
     @DeleteMapping("/admin/restaurants/{restaurant_id}/meals/{meal_id}")
@@ -44,16 +43,10 @@ public class MealRestController {
         mealRepository.delete(meal_id, restaurant_id);
     }
 
-    @GetMapping("/meals/today")
-    public List<MealTo> getAllToday() {
-        log.info("getAll");
-        return MealsUtil.getTos(mealRepository.getAllToday());
-    }
-
     @GetMapping("/restaurants/{restaurant_id}/meals/today")
     public List<MealTo> getMealByRestaurantToday(@PathVariable int restaurant_id) {
         log.info("getAll by restaurant {} today", restaurant_id);
-        return MealsUtil.getTos(mealRepository.getMealByRestaurantToday(restaurant_id, LocalDate.now()));
+        return MealsUtil.getTos(mealRepository.getMealByRestaurantToday(restaurant_id));
     }
 
     @PutMapping(value = "/admin/restaurants/{restaurant_id}/meals/{meal_id}", consumes = MediaType.APPLICATION_JSON_VALUE)

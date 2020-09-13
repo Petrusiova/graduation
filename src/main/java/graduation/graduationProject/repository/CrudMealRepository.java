@@ -20,18 +20,10 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query("DELETE FROM Meal m WHERE m.id=:id and m.restaurant.id=:restaurant_id")
     int delete(@Param("id") int id, @Param("restaurant_id") int restaurant_id);
 
-    @Query("SELECT m FROM Meal m ORDER BY m.date DESC")
-    List<Meal> getAll();
-
-    @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restaurant_id ORDER BY m.date DESC")
-    List<Meal> getAllByRestaurant(@Param("restaurant_id") int restaurant_id);
-
-    @Query("SELECT m FROM Meal m WHERE m.date=:date ORDER BY m.date DESC")
-    List<Meal> getAllByDate(@Param("date") LocalDate date);
+    @Query("SELECT m FROM Meal m WHERE m.restaurant.id=:restaurant_id AND m.id=:id")
+    Meal get(@Param("restaurant_id") int restaurant_id, @Param("id") int id);
 
     @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.restaurant.id = :restaurant_id AND m.date=:date ORDER BY m.date, m.restaurant.id DESC")
     List<Meal> getMealByRestaurantToday(@Param("restaurant_id") int restaurant_id, @Param("date") LocalDate date);
 
-    @Query("SELECT m FROM Meal m JOIN FETCH m.restaurant WHERE m.date = ?1")
-    List<Meal> getAllToday(LocalDate date);
 }

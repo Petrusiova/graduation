@@ -35,7 +35,7 @@ public class MealRepoTest extends AbstractRepoTest {
         newMeal.setId(newId);
 
         MEAL_MATCHER.assertMatch(created, newMeal);
-        MEAL_MATCHER.assertMatch(repository.get(newId), newMeal);
+        MEAL_MATCHER.assertMatch(repository.get(newId, MEAL_1_RESTAURANT_ID), newMeal);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MealRepoTest extends AbstractRepoTest {
     public void delete() throws Exception {
         Assertions.assertTrue(repository.delete(MEAL_1_ID, ASTORIA_ID));
         assertThrows(NotFoundException.class,
-                () -> repository.get(MEAL_1_ID));
+                () -> repository.get(MEAL_1_ID, MEAL_1_RESTAURANT_ID));
     }
 
     @Test
@@ -59,59 +59,59 @@ public class MealRepoTest extends AbstractRepoTest {
 
     @Test
     public void get() throws Exception {
-        Meal Meal = repository.get(MEAL_1_ID);
+        Meal Meal = repository.get(MEAL_1_ID, MEAL_1_RESTAURANT_ID);
         MEAL_MATCHER.assertMatch(Meal, MEAL_1);
     }
 
     @Test
     public void getNotFound() throws Exception {
         assertThrows(NotFoundException.class,
-                () -> repository.get(1));
+                () -> repository.get(1, MEAL_1_RESTAURANT_ID));
     }
 
     @Test
     public void update() throws Exception {
         Meal updated = getUpdated();
         repository.save(updated, MEAL_1_RESTAURANT_ID);
-        MEAL_MATCHER.assertMatch(repository.get(MEAL_1_ID), updated);
+        MEAL_MATCHER.assertMatch(repository.get(MEAL_1_ID, MEAL_1_RESTAURANT_ID), updated);
     }
 
-    @Test
-    public void getAll() throws Exception {
-        List<Meal> all = repository.getAll();
-        MEAL_MATCHER.assertMatch(all, MEALS);
-    }
+//    @Test
+//    public void getAll() throws Exception {
+//        List<Meal> all = repository.getAll();
+//        MEAL_MATCHER.assertMatch(all, MEALS);
+//    }
+//
+//    @Test
+//    public void getAllByDate() throws Exception {
+//        List<Meal> all = repository.getAllByDate(LocalDate.of(2020, 4, 6));
+//        MEAL_MATCHER.assertMatch(all, ALL_MEALS_EQL_DATE);
+//    }
+//
+//    @Test
+//    public void getAllByDateNotExists() throws Exception {
+//        List<Meal> all = repository.getAllByDate(LocalDate.now());
+//        assertTrue(all.isEmpty());
+//    }
+//
+//    @Test
+//    public void getAllByRestaurant() throws Exception {
+//        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID);
+//        MEAL_MATCHER.assertMatch(all, MEAL_1);
+//    }
+//
+//    @Test
+//    public void getAllByRestaurantNotExists() throws Exception {
+//        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID - 100);
+//        assertTrue(all.isEmpty());
+//    }
 
-    @Test
-    public void getAllByDate() throws Exception {
-        List<Meal> all = repository.getAllByDate(LocalDate.of(2020, 4, 6));
-        MEAL_MATCHER.assertMatch(all, ALL_MEALS_EQL_DATE);
-    }
-
-    @Test
-    public void getAllByDateNotExists() throws Exception {
-        List<Meal> all = repository.getAllByDate(LocalDate.now());
-        assertTrue(all.isEmpty());
-    }
-
-    @Test
-    public void getAllByRestaurant() throws Exception {
-        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID);
-        MEAL_MATCHER.assertMatch(all, MEAL_1);
-    }
-
-    @Test
-    public void getAllByRestaurantNotExists() throws Exception {
-        List<Meal> all = repository.getAllByRestaurant(MEAL_1_RESTAURANT_ID - 100);
-        assertTrue(all.isEmpty());
-    }
-
-    @Test
-    public void getAllByRestaurantAndDate() throws Exception {
-        List<Meal> all = repository.getMealByRestaurantToday(
-                MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
-        MEAL_MATCHER.assertMatch(all, MEAL_1);
-    }
+//    @Test
+//    public void getAllByRestaurantAndDate() throws Exception {
+//        List<Meal> all = repository.getMealByRestaurantToday(
+//                MEAL_1_RESTAURANT_ID, LocalDate.of(2020, 4, 6));
+//        MEAL_MATCHER.assertMatch(all, MEAL_1);
+//    }
 
 //    @Test
 //    void getWithVotes() throws Exception {

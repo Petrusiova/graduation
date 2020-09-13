@@ -1,7 +1,6 @@
 package graduation.graduationProject.repository;
 
 import graduation.graduationProject.model.Meal;
-import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -31,27 +30,11 @@ public class MealRepository {
         return true;
     }
 
-    public Meal get(int id) {
-        return crudMealRepository.findById(id).orElseThrow(() -> new NotFoundException("No meal with id = " + id));
+    public Meal get(int restaurant_id, int meal_Id) {
+        return checkNotFoundWithId(crudMealRepository.get(restaurant_id, meal_Id), meal_Id);
     }
 
-    public List<Meal> getAll() {
-        return crudMealRepository.getAll();
-    }
-
-    public List<Meal> getAllByDate(LocalDate date) {
-        return crudMealRepository.getAllByDate(date);
-    }
-
-    public List<Meal> getAllByRestaurant(int restaurant_id) {
-        return crudMealRepository.getAllByRestaurant(restaurant_id);
-    }
-
-    public List<Meal> getMealByRestaurantToday(int restaurant_id, LocalDate date) {
-        return crudMealRepository.getMealByRestaurantToday(restaurant_id, date);
-    }
-
-    public List<Meal> getAllToday() {
-        return crudMealRepository.getAllToday(LocalDate.now());
+    public List<Meal> getMealByRestaurantToday(int restaurant_id) {
+        return crudMealRepository.getMealByRestaurantToday(restaurant_id, LocalDate.now());
     }
 }

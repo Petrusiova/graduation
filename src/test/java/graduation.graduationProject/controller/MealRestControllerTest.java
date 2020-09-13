@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class MealRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = MealRestController.REST_URL + '/';
-    private static final String REST_ADMIN_URL = REST_URL + "/admin/restaurants/" + ASTORIA_ID + "/meals" ;
+    private static final String REST_ADMIN_URL = REST_URL + "admin/restaurants/" + ASTORIA_ID + "/meals" ;
     private static final String REST_USER_URL = REST_URL + "restaurants/" + ASTORIA_ID + "/meals/" ;
 
     @Autowired
@@ -64,7 +64,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_ADMIN_URL + "/" + MEAL_1_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> repository.get(MEAL_1_ID));
+        assertThrows(NotFoundException.class, () -> repository.get(MEAL_1_ID, ASTORIA_ID));
     }
 
     @Test
@@ -86,12 +86,11 @@ public class MealRestControllerTest extends AbstractControllerTest {
         Meal updated = MealTestData.getUpdated();
         perform(MockMvcRequestBuilders.put(REST_ADMIN_URL + "/" + MEAL_1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeAdditionProps(updated, "restaurant", ASTORIA))
+                .content(JsonUtil.writeValue(updated))
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
 
-        MEAL_MATCHER.assertMatch(repository.get(MEAL_1_ID), updated);
-        REST_MATCHER.assertMatch(ASTORIA, repository.get(MEAL_1_ID).getRestaurant());
+        MEAL_MATCHER.assertMatch(repository.get(ASTORIA_ID, MEAL_1_ID), updated);
     }
 
     @Test
@@ -99,25 +98,15 @@ public class MealRestControllerTest extends AbstractControllerTest {
         Meal newMeal = MealTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_ADMIN_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeAdditionProps(newMeal, "restaurant", ASTORIA))
+                .content(JsonUtil.writeValue(newMeal))
                 .with(userHttpBasic(ADMIN)));
 
         Meal created = readFromJson(action, Meal.class);
         int newId = created.id();
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);
-        MEAL_MATCHER.assertMatch(repository.get(newId), newMeal);
-        REST_MATCHER.assertMatch(ASTORIA, repository.get(newId).getRestaurant());
-    }
-
-    @Test
-    void getAllToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/meals/today")
-                .with(userHttpBasic(USER)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(Collections.singletonList(MEAL_4))));
+        MEAL_MATCHER.assertMatch(repository.get(ASTORIA_ID, newId), newMeal);
+        REST_MATCHER.assertMatch(ASTORIA, repository.get(ASTORIA_ID, newId).getRestaurant());
     }
 
     @Test
