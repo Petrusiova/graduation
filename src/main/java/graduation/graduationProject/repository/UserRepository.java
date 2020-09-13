@@ -18,7 +18,6 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static graduation.graduationProject.util.UserUtil.prepareToSave;
 import static graduation.graduationProject.util.ValidationUtil.checkNotFound;
 import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
 

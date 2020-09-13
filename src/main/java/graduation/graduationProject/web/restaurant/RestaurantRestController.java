@@ -24,7 +24,7 @@ import static graduation.graduationProject.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantRestController {
-    public static final String REST_URL = "/rest/restaurants";
+    public static final String REST_URL = "/rest";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -39,38 +39,38 @@ public class RestaurantRestController {
         binder.addValidators(nameValidator);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/restaurants/{id}")
     public Restaurant get(@PathVariable int id) {
         log.info("get restaurant {}", id);
         return restaurantRepository.get(id);
     }
 
-    @GetMapping("/by")
+    @GetMapping("/restaurants/by")
     public Restaurant getByName(@RequestParam String name) {
         log.info("get restaurant {}", name);
         return restaurantRepository.getByName(name);
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/admin/restaurants/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete restaurant {}", id);
         restaurantRepository.delete(id);
     }
 
-    @GetMapping
+    @GetMapping("/restaurants")
     public List<RestaurantTo> getAll() {
         log.info("getAll");
         return RestsUtil.getTos(restaurantRepository.getAll());
     }
 
-    @GetMapping("/today")
+    @GetMapping("/restaurants/today")
     public List<RestaurantTo> getAllWithTodayMeals() {
         log.info("getAllWithTodayMeals");
         return RestsUtil.getTos(restaurantRepository.getAllWithTodayMeals());
     }
 
-    @PutMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/admin/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated @RequestBody Restaurant restaurant, @PathVariable int id) {
         assureIdConsistent(restaurant, id);
@@ -78,7 +78,7 @@ public class RestaurantRestController {
         restaurantRepository.save(restaurant);
     }
 
-    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Validated @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         log.info("create restaurant {}", restaurant);
@@ -91,7 +91,7 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PatchMapping("/admin/{id}")
+    @PatchMapping("/admin/restaurants/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);

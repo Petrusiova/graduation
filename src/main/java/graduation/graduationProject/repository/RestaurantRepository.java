@@ -3,6 +3,7 @@ package graduation.graduationProject.repository;
 import graduation.graduationProject.model.Restaurant;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,7 @@ public class RestaurantRepository {
         return crudRestaurantRepository.findAll(SORT_NAME);
     }
 
+    @Cacheable("restaurants")
     public List<Restaurant> getAllWithTodayMeals(){
         return crudRestaurantRepository.getAllWithTodayMeals(LocalDate.now());
     }
