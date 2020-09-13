@@ -1,5 +1,6 @@
 package graduation.graduationProject.controller;
 
+import graduation.graduationProject.MealTestData;
 import graduation.graduationProject.model.Meal;
 import graduation.graduationProject.repository.MealRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
@@ -14,8 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Collections;
 
 import static graduation.graduationProject.MealTestData.*;
-import static graduation.graduationProject.RestaurantTestData.ASTORIA;
-import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
+import static graduation.graduationProject.RestaurantTestData.*;
 import static graduation.graduationProject.TestUtil.readFromJson;
 import static graduation.graduationProject.TestUtil.userHttpBasic;
 import static graduation.graduationProject.UserTestData.ADMIN;
@@ -83,7 +83,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        Meal updated = getUpdated();
+        Meal updated = MealTestData.getUpdated();
         perform(MockMvcRequestBuilders.put(REST_ADMIN_URL + "/" + MEAL_1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeAdditionProps(updated, "restaurant", ASTORIA))
@@ -91,11 +91,12 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         MEAL_MATCHER.assertMatch(repository.get(MEAL_1_ID), updated);
+        REST_MATCHER.assertMatch(ASTORIA, repository.get(MEAL_1_ID).getRestaurant());
     }
 
     @Test
     void createWithLocation() throws Exception {
-        Meal newMeal = getNew();
+        Meal newMeal = MealTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_ADMIN_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeAdditionProps(newMeal, "restaurant", ASTORIA))
@@ -106,6 +107,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);
         MEAL_MATCHER.assertMatch(repository.get(newId), newMeal);
+        REST_MATCHER.assertMatch(ASTORIA, repository.get(newId).getRestaurant());
     }
 
     @Test
