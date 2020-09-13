@@ -3,7 +3,7 @@ package graduation.graduationProject.web.user;
 
 import graduation.graduationProject.HasIdAndEmail;
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.UserRepository;
+import graduation.graduationProject.service.UserService;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.ExceptionInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.validation.Errors;
 public class UniqueMailValidator implements org.springframework.validation.Validator {
 
     @Autowired
-    private UserRepository repository;
+    private UserService repository;
 
     @Override
     public boolean supports(Class<?> clazz) {

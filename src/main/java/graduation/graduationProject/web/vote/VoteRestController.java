@@ -2,7 +2,7 @@ package graduation.graduationProject.web.vote;
 
 import graduation.graduationProject.AuthorizedUser;
 import graduation.graduationProject.model.Vote;
-import graduation.graduationProject.repository.VoteRepository;
+import graduation.graduationProject.service.VoteRepository;
 import graduation.graduationProject.to.VoteTo;
 import graduation.graduationProject.util.VoteUtil;
 import graduation.graduationProject.util.exception.ModificationRestrictionException;

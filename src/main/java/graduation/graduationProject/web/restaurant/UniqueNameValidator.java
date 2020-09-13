@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.repository.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.ExceptionInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;

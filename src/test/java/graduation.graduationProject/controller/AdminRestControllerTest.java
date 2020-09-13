@@ -3,7 +3,7 @@ package graduation.graduationProject.controller;
 import graduation.graduationProject.UserTestData;
 import graduation.graduationProject.model.Role;
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.UserRepository;
+import graduation.graduationProject.service.UserService;
 import graduation.graduationProject.web.json.JsonUtil;
 import graduation.graduationProject.web.user.AdminRestController;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Autowired
-    private UserRepository repository;
+    private UserService repository;
 
     @Test
     void get() throws Exception {

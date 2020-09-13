@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.repository.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantRepository;
 import graduation.graduationProject.to.RestaurantTo;
 import graduation.graduationProject.util.RestsUtil;
 import org.slf4j.Logger;

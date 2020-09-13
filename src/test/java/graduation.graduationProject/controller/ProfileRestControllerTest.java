@@ -1,11 +1,10 @@
 package graduation.graduationProject.controller;
 
 import graduation.graduationProject.model.User;
-import graduation.graduationProject.repository.UserRepository;
+import graduation.graduationProject.service.UserService;
 import graduation.graduationProject.to.UserTo;
 import graduation.graduationProject.util.UserUtil;
 import graduation.graduationProject.web.json.JsonUtil;
-import graduation.graduationProject.web.user.ProfileRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Autowired
-    private UserRepository repository;
+    private UserService service;
 
     @Test
     void get() throws Exception {
@@ -61,7 +60,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(repository.get(USER_ID), UserUtil.updateFromTo(new User(USER), updatedTo));
+        USER_MATCHER.assertMatch(service.get(USER_ID), UserUtil.updateFromTo(new User(USER), updatedTo));
     }
 
     @Test
@@ -104,6 +103,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         int newId = created.getId();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(repository.get(newId), newUser);
+        USER_MATCHER.assertMatch(service.get(newId), newUser);
     }
 }

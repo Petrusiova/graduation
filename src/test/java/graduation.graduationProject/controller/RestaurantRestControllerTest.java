@@ -2,7 +2,7 @@ package graduation.graduationProject.controller;
 
 import graduation.graduationProject.RestaurantTestData;
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.repository.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantRepository;
 import graduation.graduationProject.web.json.JsonUtil;
 import graduation.graduationProject.web.restaurant.RestaurantRestController;
 import org.junit.jupiter.api.Test;

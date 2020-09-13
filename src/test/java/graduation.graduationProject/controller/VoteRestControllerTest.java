@@ -2,7 +2,7 @@ package graduation.graduationProject.controller;
 
 import graduation.graduationProject.UserTestData;
 import graduation.graduationProject.model.Vote;
-import graduation.graduationProject.repository.VoteRepository;
+import graduation.graduationProject.service.VoteRepository;
 import graduation.graduationProject.util.VoteUtil;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.vote.VoteRestController;

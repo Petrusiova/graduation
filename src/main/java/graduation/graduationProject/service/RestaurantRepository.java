@@ -1,6 +1,7 @@
-package graduation.graduationProject.repository;
+package graduation.graduationProject.service;
 
 import graduation.graduationProject.model.Restaurant;
+import graduation.graduationProject.repository.CrudRestaurantRepository;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

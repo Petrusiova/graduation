@@ -1,7 +1,10 @@
-package graduation.graduationProject.repository;
+package graduation.graduationProject.service;
 
 import graduation.graduationProject.AuthorizedUser;
 import graduation.graduationProject.model.User;
+import graduation.graduationProject.repository.CrudUserRepository;
+import graduation.graduationProject.to.UserTo;
+import graduation.graduationProject.util.UserUtil;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,33 +15,47 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
+import static graduation.graduationProject.util.UserUtil.prepareToSave;
 import static graduation.graduationProject.util.ValidationUtil.checkNotFound;
 import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
 
 
-@Repository("userRepository")
+@Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UserRepository implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     private final CrudUserRepository crudUserRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserRepository(CrudUserRepository crudUserRepository, PasswordEncoder passwordEncoder) {
+    public UserService(CrudUserRepository crudUserRepository, PasswordEncoder passwordEncoder) {
         this.crudUserRepository = crudUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @CacheEvict(value = "users", allEntries = true)
-    public User save(User user) {
+    public User create(User user) {
         Assert.notNull(user, "user must not be null");
-        return crudUserRepository.save(user);
+        return prepareAndSave(user);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void update(User user) {
+        Assert.notNull(user, "user must not be null");
+        prepareAndSave(user);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Transactional
+    public void update(UserTo userTo) {
+        User user = get(userTo.id());
+        prepareAndSave(UserUtil.updateFromTo(user, userTo));   // !! need only for JDBC implementation
     }
 
     public User get(int id) {
@@ -54,16 +71,12 @@ public class UserRepository implements UserDetailsService {
         return crudUserRepository.findAll(SORT_NAME_EMAIL);
     }
 
-    public User getWithVotes(int id) {
-        return checkNotFoundWithId(crudUserRepository.getWithVotes(id), id);
-    }
-
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         User user = checkNotFoundWithId(get(id), id);
         user.setEnabled(enabled);
-        crudUserRepository.save(user);
+        prepareAndSave(user);
     }
 
     /**
@@ -72,8 +85,7 @@ public class UserRepository implements UserDetailsService {
      **/
     @CacheEvict(value = "users", allEntries = true)
     public boolean delete(int id) {
-        boolean found = crudUserRepository.delete(id) != 0;
-        checkNotFoundWithId(found, id);
+        checkNotFoundWithId(crudUserRepository.delete(id) != 0, id);
         return true;
     }
 
@@ -84,6 +96,10 @@ public class UserRepository implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
         return new AuthorizedUser(user);
+    }
+
+    private User prepareAndSave(User user) {
+        return crudUserRepository.save(prepareToSave(user, passwordEncoder));
     }
 }
 

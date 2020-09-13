@@ -35,7 +35,7 @@
     </beans>
 
 
-    <beans profile="jpa,datajpa">
+    <beans profile="datajpa">
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:dataSource-ref="dataSource"
               p:packagesToScan="graduation.**.model">

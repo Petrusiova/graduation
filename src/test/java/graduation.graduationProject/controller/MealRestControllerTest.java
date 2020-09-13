@@ -2,7 +2,7 @@ package graduation.graduationProject.controller;
 
 import graduation.graduationProject.MealTestData;
 import graduation.graduationProject.model.Meal;
-import graduation.graduationProject.repository.MealRepository;
+import graduation.graduationProject.service.MealService;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.json.JsonUtil;
 import graduation.graduationProject.web.meal.MealRestController;
@@ -33,7 +33,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
     private static final String REST_USER_URL = REST_URL + "restaurants/" + ASTORIA_ID + "/meals/" ;
 
     @Autowired
-    private MealRepository repository;
+    private MealService service;
 
     @Test
     void get() throws Exception {
@@ -64,7 +64,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_ADMIN_URL + "/" + MEAL_1_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> repository.get(MEAL_1_ID, ASTORIA_ID));
+        assertThrows(NotFoundException.class, () -> service.get(MEAL_1_ID, ASTORIA_ID));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNoContent());
 
-        MEAL_MATCHER.assertMatch(repository.get(ASTORIA_ID, MEAL_1_ID), updated);
+        MEAL_MATCHER.assertMatch(service.get(ASTORIA_ID, MEAL_1_ID), updated);
     }
 
     @Test
@@ -105,8 +105,8 @@ public class MealRestControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);
-        MEAL_MATCHER.assertMatch(repository.get(ASTORIA_ID, newId), newMeal);
-        REST_MATCHER.assertMatch(ASTORIA, repository.get(ASTORIA_ID, newId).getRestaurant());
+        MEAL_MATCHER.assertMatch(service.get(ASTORIA_ID, newId), newMeal);
+        REST_MATCHER.assertMatch(ASTORIA, service.get(ASTORIA_ID, newId).getRestaurant());
     }
 
     @Test
