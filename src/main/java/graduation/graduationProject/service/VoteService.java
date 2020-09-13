@@ -31,9 +31,6 @@ public class VoteService {
 
     @Transactional
     public Vote create(int userId, int restaurant_id) {
-        if (isAfterEleven() && get(userId) != null) {
-            throw new ModificationRestrictionException();
-        }
         Vote vote = new Vote();
         vote.setUser(crudUserRepository.getOne(userId));
         vote.setRestaurant(crudRestaurantRepository.getOne(restaurant_id));
@@ -53,16 +50,7 @@ public class VoteService {
     }
 
     public boolean delete(int id, int userId) {
-        if (isAfterEleven()) {
-            throw new ModificationRestrictionException();
-        }
         checkNotFoundWithId(crudVoteRepository.delete(id, userId) != 0, id);
         return true;
     }
-
-    private boolean isAfterEleven() {
-        return LocalTime.now().isAfter(LocalTime.of(11, 0));
-    }
-
-
 }

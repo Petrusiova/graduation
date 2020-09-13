@@ -5,6 +5,7 @@ import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.service.VoteService;
 import graduation.graduationProject.to.VoteTo;
 import graduation.graduationProject.util.VoteUtil;
+import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,9 @@ public class VoteRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser authUser) {
+        if (isAfterEleven()) {
+            throw new ModificationRestrictionException();
+        }
         log.info("delete vote {}", id);
         voteService.delete(id, authUser.getId());
     }
@@ -56,6 +61,9 @@ public class VoteRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@RequestParam int restaurant_id,
                                                    @AuthenticationPrincipal AuthorizedUser authUser) {
+        if (isAfterEleven() && get(authUser) != null) {
+            throw new ModificationRestrictionException();
+        }
         int userId = authUser.getId();
         log.info("create vote for restaurant {} and user {}", restaurant_id, userId);
         Vote created = voteService.create(userId, restaurant_id);
@@ -65,5 +73,9 @@ public class VoteRestController {
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    private boolean isAfterEleven() {
+        return LocalTime.now().isAfter(LocalTime.of(11, 0));
     }
 }
