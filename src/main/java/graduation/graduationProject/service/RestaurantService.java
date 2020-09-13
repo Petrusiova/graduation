@@ -6,29 +6,40 @@ import graduation.graduationProject.util.exception.NotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static graduation.graduationProject.util.ValidationUtil.checkNotFound;
-import static graduation.graduationProject.util.ValidationUtil.checkNotFoundWithId;
+import static graduation.graduationProject.util.ValidationUtil.*;
 
 
-@Repository
-public class RestaurantRepository {
+@Service
+public class RestaurantService {
 
     private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");
 
     private final CrudRestaurantRepository crudRestaurantRepository;
 
-    public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
+    public RestaurantService(CrudRestaurantRepository crudRestaurantRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)
-    public Restaurant save(Restaurant restaurant) {
+    public Restaurant update(Restaurant restaurant) {
+        Assert.notNull(restaurant, "restaurant must not be null");
+        String name = restaurant.getName().toUpperCase();
+        int id = restaurant.getId();
+        restaurant.setName(name);
+        return checkNotFoundWithId(crudRestaurantRepository.save(restaurant), id);
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    public Restaurant create(Restaurant restaurant) {
+        Assert.notNull(restaurant, "restaurant must not be null");
+        checkNew(restaurant);
         String name = restaurant.getName().toUpperCase();
         restaurant.setName(name);
         return crudRestaurantRepository.save(restaurant);

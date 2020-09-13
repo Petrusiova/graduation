@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.service.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantService;
 import graduation.graduationProject.util.exception.NotFoundException;
 import graduation.graduationProject.web.ExceptionInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.validation.Errors;
 public class UniqueNameValidator implements org.springframework.validation.Validator {
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantService repository;
 
     @Override
     public boolean supports(Class<?> clazz) {

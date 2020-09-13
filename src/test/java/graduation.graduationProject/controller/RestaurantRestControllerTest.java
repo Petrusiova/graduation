@@ -2,7 +2,7 @@ package graduation.graduationProject.controller;
 
 import graduation.graduationProject.RestaurantTestData;
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.service.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantService;
 import graduation.graduationProject.web.json.JsonUtil;
 import graduation.graduationProject.web.restaurant.RestaurantRestController;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     private static final String REST_ADMIN_URL = RestaurantRestController.REST_URL + "/admin/restaurants/";
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantService repository;
 
     @Test
     void get() throws Exception {

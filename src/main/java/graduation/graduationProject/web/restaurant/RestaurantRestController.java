@@ -1,7 +1,7 @@
 package graduation.graduationProject.web.restaurant;
 
 import graduation.graduationProject.model.Restaurant;
-import graduation.graduationProject.service.RestaurantRepository;
+import graduation.graduationProject.service.RestaurantService;
 import graduation.graduationProject.to.RestaurantTo;
 import graduation.graduationProject.util.RestsUtil;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class RestaurantRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
     @Autowired
     private UniqueNameValidator nameValidator;
@@ -42,32 +42,32 @@ public class RestaurantRestController {
     @GetMapping("/restaurants/{id}")
     public Restaurant get(@PathVariable int id) {
         log.info("get restaurant {}", id);
-        return restaurantRepository.get(id);
+        return restaurantService.get(id);
     }
 
     @GetMapping("/restaurants/by")
     public Restaurant getByName(@RequestParam String name) {
         log.info("get restaurant {}", name);
-        return restaurantRepository.getByName(name);
+        return restaurantService.getByName(name);
     }
 
     @DeleteMapping("/admin/restaurants/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete restaurant {}", id);
-        restaurantRepository.delete(id);
+        restaurantService.delete(id);
     }
 
     @GetMapping("/restaurants")
     public List<RestaurantTo> getAll() {
         log.info("getAll");
-        return RestsUtil.getTos(restaurantRepository.getAll());
+        return RestsUtil.getTos(restaurantService.getAll());
     }
 
     @GetMapping("/restaurants/today")
     public List<RestaurantTo> getAllWithTodayMeals() {
         log.info("getAllWithTodayMeals");
-        return RestsUtil.getTos(restaurantRepository.getAllWithTodayMeals());
+        return RestsUtil.getTos(restaurantService.getAllWithTodayMeals());
     }
 
     @PutMapping(value = "/admin/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -75,14 +75,14 @@ public class RestaurantRestController {
     public void update(@Validated @RequestBody Restaurant restaurant, @PathVariable int id) {
         assureIdConsistent(restaurant, id);
         log.info("update restaurant {} with id {}", restaurant, id);
-        restaurantRepository.save(restaurant);
+        restaurantService.update(restaurant);
     }
 
     @PostMapping(value = "/admin/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Validated @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         log.info("create restaurant {}", restaurant);
-        Restaurant created = restaurantRepository.save(restaurant);
+        Restaurant created = restaurantService.create(restaurant);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -95,6 +95,6 @@ public class RestaurantRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
-        restaurantRepository.enable(id, enabled);
+        restaurantService.enable(id, enabled);
     }
 }
