@@ -2,12 +2,16 @@ package repo;
 
 import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.service.VoteService;
+import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import graduation.graduationProject.util.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalTime;
+
 import static graduation.graduationProject.RestaurantTestData.ASTORIA_ID;
+import static graduation.graduationProject.RestaurantTestData.TIFFANY;
 import static graduation.graduationProject.UserTestData.ADMIN_ID;
 import static graduation.graduationProject.UserTestData.USER_ID;
 import static graduation.graduationProject.VoteTestData.VOTE_4;
@@ -35,17 +39,40 @@ public class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void update() throws Exception {
+        service.create(ADMIN_ID, ASTORIA_ID);
+
+        if (isAfterEleven()) {
+            assertThrows(ModificationRestrictionException.class,
+                    () -> service.create(ADMIN_ID, TIFFANY.getId()));
+        } else {
+            Vote updated = service.create(ADMIN_ID, TIFFANY.getId());
+            VOTE_MATCHER.assertMatch(service.get(ADMIN_ID), updated);
+        }
+    }
+
+    @Test
     public void delete() throws Exception {
         Vote created = service.create(ADMIN_ID, ASTORIA_ID);
         int id = created.getId();
-        Assertions.assertTrue(service.delete(id, ADMIN_ID));
-        assertNull(service.get(ADMIN_ID));
+        if (isAfterEleven()) {
+            assertThrows(ModificationRestrictionException.class,
+                    () -> service.delete(id, ADMIN_ID));
+        } else {
+            Assertions.assertTrue(service.delete(id, ADMIN_ID));
+            assertNull(service.get(ADMIN_ID));
+        }
     }
 
     @Test
     public void deletedNotFound() throws Exception {
-        assertThrows(NotFoundException.class,
-                () -> service.delete(1, USER_ID));
+        if (isAfterEleven()) {
+            assertThrows(ModificationRestrictionException.class,
+                    () -> service.delete(1, USER_ID));
+        } else {
+            assertThrows(NotFoundException.class,
+                    () -> service.delete(1, USER_ID));
+        }
     }
 
     @Test
@@ -58,5 +85,9 @@ public class VoteServiceTest extends AbstractServiceTest {
     public void getVotesCountForRestaurantToday() throws Exception {
         int count = service.getVotesCountForRestaurantToday(ASTORIA_ID);
         Assertions.assertEquals(1, count);
+    }
+
+    private boolean isAfterEleven() {
+        return LocalTime.now().isAfter(LocalTime.of(11, 0));
     }
 }

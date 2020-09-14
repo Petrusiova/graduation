@@ -2,7 +2,7 @@ Graduation project
 
 What is that project?
 
-It is a back-end model of "voting for restaurant" system.  
+It is a back-end model of "voting for a restaurant" system.  
 This system contains 2 types of users: average users and admins - users with additional rights.
 Each admin can add a restaurant and a restaurant's daily-menu and each user can vote for the preferable restaurant for visit.
 Only one vote counted per user
@@ -23,7 +23,7 @@ What tools were used?
 How could you start using it?
 
 Please clone that project from github (https://github.com/Petrusiova/graduation) and use it!
-After cloning this project you need to check dependencies and Maven lifecylce.
+After cloning this project you need to check dependencies and Maven lifecycle.
 
 How could you test it?
 
@@ -34,5 +34,5 @@ You can find curl requests in curl.md
 
 If you have some problems - please write me an email: petrusiovaolga@gmail.com
 
-Gratitude to JavaOps team (https://javaops.ru) for internship in java developing and help during my way to java developer.
+Gratitude to JavaOps team (https://javaops.ru) for an internship in java developing and help during my way to java developer.
 
