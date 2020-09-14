@@ -5,7 +5,6 @@ import graduation.graduationProject.model.Vote;
 import graduation.graduationProject.service.VoteService;
 import graduation.graduationProject.to.VoteTo;
 import graduation.graduationProject.util.VoteUtil;
-import graduation.graduationProject.util.exception.ModificationRestrictionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
